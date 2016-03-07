@@ -1,9 +1,9 @@
 {
+  "name": "proximiio",
+  "version": "0.0.4",
   "bin": {
     "proximiio": "./index.js"
   },
-  "name": "proximiio",
-  "version": "0.0.3",
   "dependencies": {
     "cfenv": "~1.0.0",
     "commander": "^2.9.0",
