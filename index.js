@@ -1,8 +1,8 @@
 #!/usr/bin/env node
+
 var http = require('http');
 var express = require('express');
 var RED = require('node-red-custom');
-var redFirebase = require('./proximiio-red-firebase');
 var open = require('open');
 var program = require('commander');
 var InstanceController = require('./instanceController');
@@ -11,13 +11,13 @@ var fs = require('fs');
 var app = express();
 
 var instance = null;
- try {
+try {
    instance = fs.readFileSync('./proximiio.json', 'utf8');
    instance = JSON.parse(instance);
- } catch(e) {
+} catch(e) {
    console.log('err', e);
    instance = null;
- }
+}
 
 console.log('found instance', instance);
 var instanceController = new InstanceController(instance);
@@ -52,13 +52,12 @@ var server = http.createServer(app);
 var settings = {
     httpAdminRoot:"/red",
     httpNodeRoot: "/api",
-    userDir:"/home/nol/.nodered/",
+    userDir: __dirname,
     nodesDir: __dirname + '/nodes',
     proximiio: instance,
     functionGlobalContext: {
 
     },    // enables global context
-    storageModule: redFirebase,
     editorTheme: {
         page: {
           title: "Proximi.io",
