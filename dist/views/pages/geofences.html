@@ -1,0 +1,172 @@
+<div class="page page-places"> <div class="pageheader"> <h2><i class="fa fa-map-marker"></i> {{page.title}}</h2> <div class="page-bar"> <ul class="page-breadcrumb"> <li> <a ui-sref="app.dashboard"><i class="fa fa-home"></i> {{main.title}}</a> </li> <li> <a ui-sref="app.geofences">{{page.title}}</a> </li> </ul> </div> </div> <!-- row --> <div class="row"> <div class="col-md-12"> <!-- tile --> <section class="tile bg-dummy" fullscreen="isFullscreen01"> <!-- tile header --> <div class="tile-header dvd dvd-btm"> <h1 class="custom-font"><strong>Manage </strong>Geofences</h1> <ul class="controls"> <li><a href="javascript:;" ng-click="openModal()"><i class="fa fa-plus mr-5"></i> Add Geofences</a></li> <li class="dropdown" dropdown on-toggle="toggled(open)"> <a href dropdown-toggle class="dropdown-toggle snippets"><i class="fa fa-ellipsis-v"></i></a> <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp"> <li> <a href ng-click="getSnippet('places')"> <i class="fa fa-terminal"></i> Get CURL snippet </a> </li> </ul> </li> <li class="dropdown" dropdown on-toggle="toggled(open)"> <a href dropdown-toggle class="dropdown-toggle settings"><i class="fa fa-cog"></i></a> <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp"> <li> <a href tile-control-toggle> <span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span> <span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span> </a> </li> <li> <a href tile-control-refresh ng-click="ajaxFaker()"> <i class="fa fa-refresh"></i> Refresh </a> </li> <li> <a href tile-control-fullscreen ng-click="isFullscreen01 = !isFullscreen01"> <i class="fa fa-expand"></i> Fullscreen </a> </li> </ul> </li> <li class="remove"><a href tile-control-close><i class="fa fa-times"></i></a></li> </ul> </div> <!-- /tile header --> <!-- tile body --> <div class="tile-body"> <div class="row"> <div class="col-md-6"></div> <div class="col-md-6"> <input type="text" class="form-control underline-input w-md pull-right mb-20" placeholder="Search..." ng-model="searchText"> </div> </div> <div class="table-responsive"> <table ng-table="tableParams" class="table table-custom" template-pagination="custom/pager"> <tr ng-repeat="geofence in $data | filter:searchText"> <td data-title="'Name'" sortable> <a href="javascript:;" ng-click="show(geofence)">{{geofence.name}}</a>  <td data-title="'Address'" sortable> {{geofence.address}}  <td data-title="'Latitude'" sortable> {{geofence.area.lat}}  <td data-title="'Longitude'" sortable> {{geofence.area.lng}}  <td data-title="'Actions'" class="actions"> <a href="javascript:;" class="edit" ng-click="openModal(geofence)">Edit</a> <a href="javascript:;" class="delete" ng-click="delete(geofence)">Delete</a>   </table> <script type="text/ng-template" id="custom/pager"><div class="ng-cloak ng-table-pager mt-20" ng-if="params.data.length">
+
+                <div ng-if="params.settings().counts.length" class="ng-table-counts btn-group pull-right">
+
+                  <select ng-options="count for count in params.settings().counts" ng-model="params.$params.count" class="form-control"></select>
+
+                </div>
+
+                <ul class="pagination pagination-xs pagination-custom">
+                  <li ng-class="{'disabled': !page.active && !page.current, 'active': page.current}" ng-repeat="page in pages" ng-switch="page.type">
+                    <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">Previous</a>
+                    <a ng-switch-when="first" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="page" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
+                    <a ng-switch-when="last" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="next" ng-click="params.page(page.number)" href="">Next</a>
+                  </li>
+                </ul>
+              </div></script> </div> </div> <!-- /tile body --> </section> <!-- /tile --> </div> </div> <!-- /row --> </div> <script type="text/ng-template" id="geofenceControlModal.html"><div class="modal-header">
+    <h3 class="modal-title custom-font" ng-hide="editing"><i class="fa fa-circle-o mr-5"></i> Add Geofence</h3>
+    <h3 class="modal-title custom-font" ng-show="editing"><i class="fa fa-circle-o mr-5"></i> Edit Geofence</h3>
+  </div>
+  <div class="modal-body p-0">
+
+
+
+    <form name="addForm" class="form-horizontal form-validation" role="form" novalidate>
+
+      <tabset class="tab-container tab-wizard" justified="true" ng-init="steps={step1:true, step2:false}">
+
+        <tab active="steps.step1">
+
+          <tab-heading>
+            Basic Info
+            <span class="badge badge-default pull-right wizard-step">1</span>
+          </tab-heading>
+
+          <div class="form-group mt-20">
+            <label for="name" class="col-sm-3 control-label">Name <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="text" name="name" class="form-control" id="name" placeholder="Geofence Name..." ng-model="geofence.name" required>
+            </div>
+          </div>
+
+          <div class="form-group mt-20">
+            <label class="col-sm-3 control-label">Place</label>
+            <div class="col-sm-9">
+              <select chosen="{width: '100%'}"
+                      data-placeholder="Select a Place"
+                      no-results-text="'Could not find any places :('"
+                      ng-model="geofence.place_id"
+                      ng-change="placeSelect()"
+                      ng-options="value.id as value.name for (key,value) in places">
+                <option></option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" ng-show="geofence.place_id">
+            <label class="col-sm-3 control-label">Department</label>
+            <div class="col-sm-9">
+              <select chosen="{width: '100%'}"
+                      data-placeholder="Select a Department"
+                      no-results-text="'Could not find any departments :('"
+                      ng-model="geofence.department_id"
+                      ng-change="departmentSelect()"
+                      ng-options="value.id as value.name for (key,value) in filteredDepartments">
+                <option></option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="address" class="col-sm-3 control-label">Address <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="text" name="address" class="form-control" id="address" placeholder="Geofence Address..." ng-model="geofence.address" ng-blur="geoCodeAddress()" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lat" class="col-sm-3 control-label">Latitude <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="number" name="lat" class="form-control" id="lat" placeholder="Geofence Latitude..." ng-model="geofence.area.lat" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lng" class="col-sm-3 control-label">Longitude <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="number" name="lng" class="form-control" id="lng" placeholder="Geofence Longitude..." ng-model="geofence.area.lng" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="radius" class="col-sm-3 control-label">Radius <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="number" name="radius" class="form-control" id="radius" placeholder="Geofence Radius..." ng-model="geofence.radius" required>
+            </div>
+          </div>
+
+          <!--<div class="form-group">
+            <label for="url" class="col-sm-3 control-label">Floorplan URL</label>
+            <div class="col-sm-9">
+              <input type="url" name="url" class="form-control" id="url" placeholder="Floorplan URL..." ng-model="geofence.floorplan_image_url">
+            </div>
+          </div>-->
+
+        </tab>
+
+        <tab active="steps.step2" disable="addInputForm.$invalid" select="loadMap()">
+
+          <tab-heading>
+            Map
+            <span class="badge badge-default pull-right wizard-step">2</span>
+          </tab-heading>
+
+          <leaflet center="location" markers="markers" defaults="defaults" layers="layers" height="480px"></leaflet>
+
+        </tab>
+
+
+      </tabset>
+
+    </form>
+
+
+
+  </div>
+
+  <div class="modal-footer">
+
+    <!-- ###### 1 STEP ######-->
+    <button class="btn btn-default pull-left" ng-click="steps.step1=true" ng-show="!steps.step1"><i class="fa fa-angle-left"></i> Previous</button>
+    <button class="btn btn-default" ng-disabled="addForm.$invalid" ng-click="steps.step2=true" ng-class="{'pull-left': steps.step1}" ng-hide="!steps.step1">Next <i class="fa fa-angle-right ml-5"></i></button><!-- /1 STEP -->
+
+    <button class="btn btn-success b-0" ng-click="ok()" ng-disabled="addForm.$invalid" ng-show="steps.step2">Submit</button>
+    <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
+
+  </div></script> <script type="text/ng-template" id="geofenceViewModal.html"><div class="modal-header">
+    <h3 class="modal-title custom-font"><i class="fa fa-circle-o mr-5"></i> Geofence Details | {{geofence.name}}</h3>
+  </div>
+  <div class="modal-body">
+
+
+    <!-- row -->
+    <div class="row">
+
+      <!-- col -->
+      <div class="col-sm-9">
+        <ul class="list-unstyled m-20">
+          <li><strong>Geofence Name:</strong> {{geofence.name}}</li>
+          <li><strong>Geofence Address:</strong>  {{geofence.address}}</li>
+          <li><strong>Geofence Latitude:</strong>  {{geofence.area.lat}}</li>
+          <li><strong>Geofence Longitude:</strong>  {{geofence.area.lng}}</li>
+        </ul>
+      </div>
+      <!-- /col -->
+
+    </div>
+    <!-- /row -->
+
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Close</button>
+  </div></script>

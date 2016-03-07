@@ -1,0 +1,246 @@
+<div class="page page-import-inputs"> <div class="pageheader"> <h2><i class="fa fa-upload"></i> {{page.title}}</h2> <div class="page-bar"> <ul class="page-breadcrumb"> <li> <a ui-sref="app.dashboard"><i class="fa fa-home"></i> {{main.title}}</a> </li> <li> <a ui-sref="app.inputs">{{page.title}}</a> </li> </ul> </div> </div> <!-- row --> <div class="row"> <div class="col-md-12"> <div class="alert alert-danger alert-dismissible" role="alert" ng-show="places.length === 0"> <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="right: 0"><span aria-hidden="true">&times;</span></button> <strong>Warning!</strong> You have to create at least one <strong>place</strong> to be able to import an input. Please add your place <a ui-sref="app.places">here</a>. </div> <div class="alert alert-danger alert-dismissible" role="alert" ng-show="floors.length === 0"> <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="right: 0"><span aria-hidden="true">&times;</span></button> <strong>Warning!</strong> You have to create at least one <strong>floor</strong> to be able to import an input. Please add your floor <a ui-sref="app.floors">here</a>. </div> <div class="alert alert-danger alert-dismissible" role="alert" ng-show="departments.length === 0"> <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="right: 0"><span aria-hidden="true">&times;</span></button> <strong>Warning!</strong> You have to create at least one <strong>department</strong> to be able to import an input. Please add your department <a ui-sref="app.departments">here</a>. </div> <!-- tile --> <section class="tile bg-dummy" fullscreen="isFullscreen01" ng-hide="places.length === 0 || floors.length === 0 || departments.length === 0"> <!-- tile header --> <div class="tile-header dvd dvd-btm"> <h1 class="custom-font"><strong>Kontakt.io </strong>Available Inputs</h1> <ul class="controls"> <li class="dropdown" dropdown on-toggle="toggled(open)"> <a href dropdown-toggle class="dropdown-toggle snippets"><i class="fa fa-ellipsis-v"></i></a> <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp"> <li> <a href ng-click="getSnippet('inputs')"> <i class="fa fa-terminal"></i> Get CURL snippet </a> </li> </ul> </li> <li class="dropdown" dropdown on-toggle="toggled(open)"> <a href dropdown-toggle class="dropdown-toggle settings"><i class="fa fa-cog"></i></a> <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp"> <li> <a href tile-control-toggle> <span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span> <span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span> </a> </li> <li> <a href="javascript:;" ng-click="refresh('kontaktIO')"> <i class="fa fa-refresh"></i> Refresh </a> </li> <li> <a href tile-control-fullscreen ng-click="isFullscreen01 = !isFullscreen01"> <i class="fa fa-expand"></i> Fullscreen </a> </li> </ul> </li> <li class="remove"><a href tile-control-close><i class="fa fa-times"></i></a></li> </ul> </div> <!-- /tile header --> <!-- tile widget --> <div class="tile-widget" ng-show="!kontaktio.connect"> <form name="kontaktIOConnect" class="form-inline form-validation" role="form" novalidate> <div class="form-group"> <label for="kontaktioApi" class="mr-5">Kontakt.io API Key</label> <input type="text" class="form-control" id="kontaktioApi" name="kontaktioApi" ng-model="kontaktio.apiKey" placeholder="Kontakt.io API Key..." style="width: 320px" required> </div> <button class="btn btn-default" ng-disabled="kontaktIOConnect.$invalid" ng-click="connect('kontaktIO')">Connect</button> </form> </div> <!-- /tile widget --> <!-- tile body --> <div class="tile-body" ng-show="kontaktio.connect"> <div class="row"> <div class="col-md-6"></div> <div class="col-md-6"> <input type="text" class="form-control underline-input w-md pull-right mb-20" placeholder="Search..." ng-model="searchText"> </div> </div> <div class="table-responsive"> <table ng-table="kontaktio.table" class="table table-custom" template-pagination="custom/pager"> <tr ng-repeat="input in $data | filter:searchText"> <td data-title="'Unique ID'" sortable> <img src="images/ico-standard-eddystone.4c40e30c.png" alt="eddystone" class="mr-10" ng-show="input.profiles[0] === 'EDDYSTONE'"> <img src="images/ico-standard-ibeacon.7f3d5e34.png" alt="eddystone" class="mr-10" ng-show="input.profiles[0] === 'IBEACON'"> {{input.uniqueId}}  <td data-title="'Proximity ID'" sortable style="vertical-align: middle"> {{input.proximity}}  <td data-title="'Namespace'" sortable style="vertical-align: middle"> {{input.namespace}}  <td data-title="'Instance ID'" sortable style="vertical-align: middle"> {{input.instanceId}}  <td data-title="'URL'" sortable style="vertical-align: middle"> {{input.url}}  <td data-title="'Actions'" class="actions" style="vertical-align: middle"> <a href="javascript:;" class="edit" ng-click="openModal(input)">Import</a>   </table> <script type="text/ng-template" id="custom/pager"><div class="ng-cloak ng-table-pager mt-20" ng-if="params.data.length">
+
+                <div ng-if="params.settings().counts.length" class="ng-table-counts btn-group pull-right">
+
+                  <select ng-options="count for count in params.settings().counts" ng-model="params.$params.count" class="form-control"></select>
+
+                </div>
+
+                <ul class="pagination pagination-xs pagination-custom">
+                  <li ng-class="{'disabled': !page.active && !page.current, 'active': page.current}" ng-repeat="page in pages" ng-switch="page.type">
+                    <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">Previous</a>
+                    <a ng-switch-when="first" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="page" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
+                    <a ng-switch-when="last" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="next" ng-click="params.page(page.number)" href="">Next</a>
+                  </li>
+                </ul>
+              </div></script> </div> </div> <!-- /tile body --> </section> <!-- /tile --> <!-- tile --> <section class="tile bg-dummy" fullscreen="isFullscreen02" ng-hide="places.length === 0 || floors.length === 0 || departments.length === 0"> <!-- tile header --> <div class="tile-header dvd dvd-btm"> <h1 class="custom-font"><strong>Estimote </strong>Available Inputs</h1> <ul class="controls"> <li class="dropdown" dropdown on-toggle="toggled(open)"> <a href dropdown-toggle class="dropdown-toggle snippets"><i class="fa fa-ellipsis-v"></i></a> <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp"> <li> <a href ng-click="getSnippet('inputs')"> <i class="fa fa-terminal"></i> Get CURL snippet </a> </li> </ul> </li> <li class="dropdown" dropdown on-toggle="toggled(open)"> <a href dropdown-toggle class="dropdown-toggle settings"><i class="fa fa-cog"></i></a> <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp"> <li> <a href tile-control-toggle> <span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span> <span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span> </a> </li> <li> <a href="javascript:;" ng-click="refresh('estimote')"> <i class="fa fa-refresh"></i> Refresh </a> </li> <li> <a href tile-control-fullscreen ng-click="isFullscreen01 = !isFullscreen01"> <i class="fa fa-expand"></i> Fullscreen </a> </li> </ul> </li> <li class="remove"><a href tile-control-close><i class="fa fa-times"></i></a></li> </ul> </div> <!-- /tile header --> <!-- tile widget --> <div class="tile-widget" ng-show="!estimote.connect"> <form name="estimoteConnect" class="form-inline form-validation" role="form" novalidate> <div class="form-group"> <label for="estimoteApi" class="mr-5">Estimote API Key</label> <input type="text" class="form-control" id="estimoteApi" name="estimoteApi" ng-model="estimote.apiKey" placeholder="Estimote API Key..." style="width: 320px" required> </div> <button class="btn btn-default" ng-disabled="estimoteConnect.$invalid" ng-click="connect('estimote')">Connect</button> </form> </div> <!-- /tile widget --> <!-- tile body --> <div class="tile-body" ng-show="estimote.connect"> <div class="row"> <div class="col-md-6"></div> <div class="col-md-6"> <input type="text" class="form-control underline-input w-md pull-right mb-20" placeholder="Search..." ng-model="searchText"> </div> </div> <div class="table-responsive"> <table ng-table="estimote.table" class="table table-custom" template-pagination="custom/pager"> <tr ng-repeat="input in $data | filter:searchText"> <td data-title="'Unique ID'" sortable> <img src="images/ico-standard-eddystone.4c40e30c.png" alt="eddystone" class="mr-10" ng-show="input.profiles[0] === 'EDDYSTONE'"> <img src="images/ico-standard-ibeacon.7f3d5e34.png" alt="eddystone" class="mr-10" ng-show="input.profiles[0] === 'IBEACON'"> {{input.uniqueId}}  <td data-title="'Proximity ID'" sortable style="vertical-align: middle"> {{input.proximity}}  <td data-title="'Namespace'" sortable style="vertical-align: middle"> {{input.namespace}}  <td data-title="'Instance ID'" sortable style="vertical-align: middle"> {{input.instanceId}}  <td data-title="'URL'" sortable style="vertical-align: middle"> {{input.url}}  <td data-title="'Actions'" class="actions"> <a href="javascript:;" class="edit" ng-click="openModal(input)">Import</a>   </table> <script type="text/ng-template" id="custom/pager"><div class="ng-cloak ng-table-pager mt-20" ng-if="params.data.length">
+
+                <div ng-if="params.settings().counts.length" class="ng-table-counts btn-group pull-right">
+
+                  <select ng-options="count for count in params.settings().counts" ng-model="params.$params.count" class="form-control"></select>
+
+                </div>
+
+                <ul class="pagination pagination-xs pagination-custom">
+                  <li ng-class="{'disabled': !page.active && !page.current, 'active': page.current}" ng-repeat="page in pages" ng-switch="page.type">
+                    <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">Previous</a>
+                    <a ng-switch-when="first" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="page" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
+                    <a ng-switch-when="last" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="next" ng-click="params.page(page.number)" href="">Next</a>
+                  </li>
+                </ul>
+              </div></script> </div> </div> <!-- /tile body --> </section> <!-- /tile --> </div> </div> <!-- /row --> </div> <script type="text/ng-template" id="inputControlModal.html"><div class="modal-header">
+    <h3 class="modal-title custom-font"><i class="fa fa-upload mr-5"></i> Import Input</h3>
+  </div>
+  <div class="modal-body p-0">
+
+
+
+    <form name="addInputForm" class="form-horizontal form-validation" role="form" novalidate>
+
+      <tabset class="tab-container tab-wizard" justified="true" ng-init="steps={step1:true, step2:false}">
+
+        <tab active="steps.step1">
+
+          <tab-heading>
+            Basic Info
+            <span class="badge badge-default pull-right wizard-step">1</span>
+          </tab-heading>
+
+          <div class="form-group">
+            <label for="name" class="col-sm-3 control-label">Name <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="text" name="name" class="form-control" id="name" placeholder="Input Name..." ng-model="input.name" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Type <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="text" name="type" class="form-control" id="type" ng-model="input.type" ng-disabled="true">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Department <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+
+              <select chosen="{width: '100%'}"
+                      data-placeholder="Select a Department"
+                      no-results-text="'Could not find any departments :('"
+                      ng-model="input.department_id"
+                      ng-change="departmentSelect()"
+                      ng-options="value.id as value.name for (key,value) in departments"
+                      required>
+                <option></option>
+              </select>
+
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lat" class="col-sm-3 control-label">Latitude <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="number" name="lat" class="form-control" id="lat" placeholder="Input Latitude..." ng-model="input.data.marker.lat" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lng" class="col-sm-3 control-label">Longitude <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="number" name="lng" class="form-control" id="lng" placeholder="Input Longitude..." ng-model="input.data.marker.lng" required>
+            </div>
+          </div>
+
+          <div class="form-group" ng-show="input.type === 'iBeacon'">
+            <label for="major" class="col-sm-3 control-label">Major <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="number" name="major" class="form-control" id="major" placeholder="Input Major..." ng-model="input.data.major" ng-required="input.type === 'iBeacon'">
+            </div>
+          </div>
+
+          <div class="form-group" ng-show="input.type === 'iBeacon'">
+            <label for="minor" class="col-sm-3 control-label">Minor <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="number" name="minor" class="form-control" id="minor" placeholder="Input Minor..." ng-model="input.data.minor"  ng-required="input.type === 'iBeacon'">
+            </div>
+          </div>
+
+          <div class="form-group" ng-show="input.type === 'iBeacon'">
+            <label for="uuid" class="col-sm-3 control-label">UUID <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="text" name="uuid" class="form-control" id="uuid" placeholder="Input UUID..." ng-model="input.data.uuid"  ng-required="input.type === 'iBeacon'" capitalize>
+            </div>
+          </div>
+
+          <div class="form-group" ng-show="input.type === 'Eddystone Beacon'">
+            <label for="namespaceid" class="col-sm-3 control-label">Namespace ID <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="text" name="namespaceid" class="form-control" id="namespaceid" placeholder="Input Namescpace ID..." ng-model="input.data.namespaceid" ng-required="input.type === 'Eddystone Beacon'">
+            </div>
+          </div>
+
+          <div class="form-group" ng-show="input.type === 'Eddystone Beacon'">
+            <label for="instanceid" class="col-sm-3 control-label">Instance ID <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="text" name="instanceid" class="form-control" id="instanceid" placeholder="Input Instance ID..." ng-model="input.data.instanceid"  ng-required="input.type === 'Eddystone Beacon'">
+            </div>
+          </div>
+
+          <div class="form-group" ng-show="input.type === 'IndoorAtlas Geofences' || input.type === 'GPS Geofence'">
+            <label for="radius" class="col-sm-3 control-label">Radius <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+              <input type="number" name="radius" class="form-control" id="radius" placeholder="Input Radius..." ng-model="input.data.radius"  ng-required="input.type === 'IndoorAtlas Geofences' || input.type === 'GPS Geofence'">
+            </div>
+          </div>
+
+          <div class="form-group" ng-show="input.type === 'iBeacon' || input.type === 'Eddystone Beacon'">
+            <label class="control-label col-md-3">Trigger a floor change?</label>
+            <div class="col-md-9">
+              <div class="onoffswitch greensea">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switch01" ng-model="input.triggerFloorChange">
+                <label class="onoffswitch-label" for="switch01">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" ng-show="(input.type === 'iBeacon' || input.type === 'Eddystone Beacon') && input.triggerFloorChange">
+            <label class="col-sm-3 control-label">Floor <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+
+              <select chosen="{width: '100%'}"
+                      data-placeholder="Select a Floor"
+                      no-results-text="'Could not find any floors :('"
+                      ng-model="input.floor_id"
+                      ng-options="value.id as (value.name + ' (' + value.place_id + ')') for (key,value) in floors"
+                      ng-required="input.triggerFloorChange"
+                      >
+                <option></option>
+              </select>
+
+            </div>
+          </div>
+
+          <div class="form-group" ng-show="input.type === 'iBeacon' || input.type === 'GPS Geofence' || input.type === 'Eddystone Beacon'">
+            <label class="control-label col-md-3">Indoor Atlas Venue Change</label>
+            <div class="col-md-9">
+              <div class="onoffswitch greensea">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switch02" ng-model="input.triggerVenueChange">
+                <label class="onoffswitch-label" for="switch02">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" ng-show="(input.type === 'iBeacon' || input.type === 'GPS Geofence' || input.type === 'Eddystone Beacon') && input.triggerVenueChange">
+            <label class="col-sm-3 control-label">Place <span class="text-danger" style="font-size: 15px;">*</span></label>
+            <div class="col-sm-9">
+
+              <select chosen="{width: '100%'}"
+                      data-placeholder="Select a Place"
+                      no-results-text="'Could not find any places :('"
+                      ng-model="input.place_id"
+                      ng-options="value.id as value.name for (key,value) in places"
+                      ng-required="input.triggerVenueChange"
+                      >
+                <option></option>
+              </select>
+
+            </div>
+          </div>
+
+
+        </tab>
+
+        <tab active="steps.step2" disable="addInputForm.$invalid" select="loadMap()">
+
+          <tab-heading>
+            Map
+            <span class="badge badge-default pull-right wizard-step">2</span>
+          </tab-heading>
+
+          <leaflet center="location" markers="markers" defaults="defaults" layers="layers" height="480px" ng-class="input.type"></leaflet>
+
+        </tab>
+
+
+      </tabset>
+
+    </form>
+
+
+
+  </div>
+
+  <div class="modal-footer">
+
+    <!-- ###### 1 STEP ######-->
+    <button class="btn btn-default pull-left" ng-click="steps.step1=true" ng-show="!steps.step1"><i class="fa fa-angle-left"></i> Previous</button>
+    <button class="btn btn-default" ng-disabled="addInputForm.$invalid" ng-click="steps.step2=true" ng-class="{'pull-left': steps.step1}" ng-hide="!steps.step1">Next <i class="fa fa-angle-right ml-5"></i></button><!-- /1 STEP -->
+
+    <button class="btn btn-success b-0" ng-click="ok()" ng-disabled="addInputForm.$invalid" ng-show="steps.step2">Submit</button>
+    <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
+
+  </div></script>

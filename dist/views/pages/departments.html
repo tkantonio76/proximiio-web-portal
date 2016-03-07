@@ -1,0 +1,137 @@
+<div class="page page-sections"> <div class="pageheader"> <h2><i class="fa fa-puzzle-piece"></i> {{page.title}}</h2> <div class="page-bar"> <ul class="page-breadcrumb"> <li> <a ui-sref="app.dashboard"><i class="fa fa-home"></i> {{main.title}}</a> </li> <li> <a ui-sref="app.sections">{{page.title}}</a> </li> </ul> </div> </div> <!-- row --> <div class="row"> <div class="col-md-12"> <div class="alert alert-danger alert-dismissible" role="alert" ng-show="places.length === 0"> <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="right: 0"><span aria-hidden="true">&times;</span></button> <strong>Warning!</strong> You have to create at least one <strong>place</strong> to be able to add a department. Please add your place <a ui-sref="app.places">here</a>. </div> <div class="alert alert-danger alert-dismissible" role="alert" ng-show="floors.length === 0"> <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="right: 0"><span aria-hidden="true">&times;</span></button> <strong>Warning!</strong> You have to create at least one <strong>floor</strong> to be able to add a department. Please add your floor <a ui-sref="app.floors">here</a>. </div> <!-- tile --> <section class="tile bg-dummy" fullscreen="isFullscreen01"> <!-- tile header --> <div class="tile-header dvd dvd-btm"> <h1 class="custom-font"><strong>Manage </strong>Departments</h1> <ul class="controls"> <li ng-hide="places.length === 0 || floors.length === 0"><a href="javascript:;" ng-click="openModal()"><i class="fa fa-plus mr-5"></i> Add Department</a></li> <li class="dropdown" dropdown on-toggle="toggled(open)"> <a href dropdown-toggle class="dropdown-toggle snippets"><i class="fa fa-ellipsis-v"></i></a> <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp"> <li> <a href ng-click="getSnippet('departments')"> <i class="fa fa-terminal"></i> Get CURL snippet </a> </li> </ul> </li> <li class="dropdown" dropdown on-toggle="toggled(open)"> <a href dropdown-toggle class="dropdown-toggle settings"><i class="fa fa-cog"></i></a> <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp"> <li> <a href tile-control-toggle> <span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span> <span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span> </a> </li> <li> <a href tile-control-refresh ng-click="ajaxFaker()"> <i class="fa fa-refresh"></i> Refresh </a> </li> <li> <a href tile-control-fullscreen ng-click="isFullscreen01 = !isFullscreen01"> <i class="fa fa-expand"></i> Fullscreen </a> </li> </ul> </li> <li class="remove"><a href tile-control-close><i class="fa fa-times"></i></a></li> </ul> </div> <!-- /tile header --> <!-- tile body --> <div class="tile-body"> <div class="row"> <div class="col-md-6"></div> <div class="col-md-6"> <input type="text" class="form-control underline-input w-md pull-right mb-20" placeholder="Search..." ng-model="searchText"> </div> </div> <div class="table-responsive"> <table ng-table="tableParams" class="table table-custom" template-pagination="custom/pager"> <tr ng-repeat="department in $data | filter:searchText"> <td data-title="'Name'" sortable> <a href="javascript:;" ng-click="showDepartment(department)">{{department.name}}</a>  <td data-title="'Place'" sortable> <span ng-repeat="place in places | filter: {id: department.place_id}">{{place.name}}</span>  <td data-title="'Actions'" class="actions"> <a href="javascript:;" class="edit" ng-click="openModal(department)">Edit</a> <a href="javascript:;" class="delete" ng-click="deleteDepartment(department)">Delete</a>   </table> <script type="text/ng-template" id="custom/pager"><div class="ng-cloak ng-table-pager mt-20" ng-if="params.data.length">
+
+                <div ng-if="params.settings().counts.length" class="ng-table-counts btn-group pull-right">
+
+                  <select ng-options="count for count in params.settings().counts" ng-model="params.$params.count" class="form-control"></select>
+
+                </div>
+
+                <ul class="pagination pagination-xs pagination-custom">
+                  <li ng-class="{'disabled': !page.active && !page.current, 'active': page.current}" ng-repeat="page in pages" ng-switch="page.type">
+                    <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">Previous</a>
+                    <a ng-switch-when="first" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="page" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
+                    <a ng-switch-when="last" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="next" ng-click="params.page(page.number)" href="">Next</a>
+                  </li>
+                </ul>
+              </div></script> </div> </div> <!-- /tile body --> </section> <!-- /tile --> </div> </div> <!-- /row --> </div> <script type="text/ng-template" id="departmentControlModal.html"><div class="modal-header">
+    <h3 class="modal-title custom-font" ng-hide="editDepartment"><i class="fa fa-puzzle-piece mr-5"></i> Add Department</h3>
+    <h3 class="modal-title custom-font" ng-show="editDepartment"><i class="fa fa-puzzle-piece mr-5"></i> Edit Department</h3>
+  </div>
+  <div class="modal-body">
+
+
+    <form name="addDepartmentForm" class="form-horizontal form-validation" role="form" novalidate>
+
+      <div class="form-group mt-20">
+        <label class="col-sm-2 control-label">Place <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-10">
+
+          <select chosen="{width: '100%'}"
+                  data-placeholder="Select a Place"
+                  no-results-text="'Could not find any places :('"
+                  ng-model="department.place_id"
+                  ng-change="placeSelect()"
+                  ng-options="value.id as value.name for (key,value) in places"
+                  required>
+            <option></option>
+          </select>
+
+        </div>
+      </div>
+
+      <div class="form-group" ng-show="placeSelected">
+        <label class="col-sm-2 control-label">Floor <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-10">
+
+          <select chosen="{width: '100%'}"
+                  data-placeholder="Select a Floor"
+                  no-results-text="'Could not find any floors :('"
+                  ng-model="department.floor_id"
+                  ng-change="floorSelect()"
+                  ng-options="value.id as value.name for (key,value) in floors"
+                  required>
+            <option></option>
+          </select>
+
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">Name <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-10">
+          <input type="text" name="name" class="form-control" id="name" placeholder="Department Name..." ng-model="department.name" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Tags</label>
+        <div class="col-sm-10">
+          <tags options="{addable: true}" model="department.tags" src="t.name for t in tags"></tags>
+          <p class="help-block">Separate tags with "enter"</p>
+        </div>
+      </div>
+
+
+    </form>
+
+
+
+  </div>
+  <div class="modal-footer">
+
+    <button class="btn btn-success b-0" ng-click="ok()" ng-disabled="addDepartmentForm.$invalid">Submit</button>
+    <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
+
+  </div></script> <script type="text/ng-template" id="departmentViewModal.html"><div class="modal-header">
+    <h3 class="modal-title custom-font"><i class="fa fa-puzzle-piece mr-5"></i> Department Details | {{department.name}}</h3>
+  </div>
+  <div class="modal-body">
+
+
+    <!-- row -->
+    <div class="row">
+
+      <!-- col -->
+      <div class="col-sm-9">
+        <ul class="list-unstyled m-20">
+          <li><strong>Department Name:</strong> {{department.name}}</li>
+          <li><strong>Place Name:</strong> <span ng-repeat="place in places | filter: {id: department.place_id}">{{place.name}}</span></li>
+        </ul>
+      </div>
+      <!-- /col -->
+
+      <!-- col -->
+      <div class="col-sm-3">
+        <!-- tile -->
+        <section class="tile tile-simple bg-greensea">
+
+          <!-- tile body -->
+          <div class="tile-body text-center">
+            <h6 class="custom-font mt-0 text-uppercase text-left"><strong>Total</strong> Visitors</h6>
+            <span class="text-xl" count-to="{{department.totalVisitors}}" value="0" duration="3"></span>
+          </div>
+          <!-- /tile body -->
+
+        </section>
+        <!-- /tile -->
+      </div>
+      <!-- /col -->
+
+    </div>
+    <!-- /row -->
+
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Close</button>
+  </div></script>

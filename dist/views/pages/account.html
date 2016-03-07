@@ -1,0 +1,112 @@
+<div class="page page-account"> <div class="pageheader"> <h2><i class="fa fa-user"></i> {{page.title}}</h2> <div class="page-bar"> <ul class="page-breadcrumb"> <li> <a ui-sref="app.dashboard"><i class="fa fa-home"></i> {{main.title}}</a> </li> <li> <a ui-sref="app.account">{{page.title}}</a> </li> </ul> </div> </div> <!-- row --> <div class="row"> <!-- col --> <div class="col-md-8"> <!-- tile --> <section class="tile bg-dummy" fullscreen="isFullscreen01"> <!-- tile header --> <div class="tile-header dvd dvd-btm"> <h1 class="custom-font"><strong>My </strong> Account</h1> <ul class="controls"> <li class="dropdown" dropdown on-toggle="toggled(open)"> <a href dropdown-toggle class="dropdown-toggle settings"><i class="fa fa-cog"></i></a> <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp"> <li> <a href tile-control-toggle> <span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span> <span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span> </a> </li> <li> <a href tile-control-refresh ng-click="ajaxFaker()"> <i class="fa fa-refresh"></i> Refresh </a> </li> <li> <a href tile-control-fullscreen ng-click="isFullscreen01 = !isFullscreen01"> <i class="fa fa-expand"></i> Fullscreen </a> </li> </ul> </li> <li class="remove"><a href tile-control-close><i class="fa fa-times"></i></a></li> </ul> </div> <!-- /tile header --> <!-- tile body --> <div class="tile-body"> <div class="row"> <div class="col-md-12"> <form class="form-horizontal" name="form"> <div class="form-group mt-20"> <label for="fname" class="col-sm-3 control-label">First Name:</label> <div class="col-sm-9"> <input type="text" name="fname" class="form-control" id="fname" ng-model="user.name"> </div> </div> <div class="form-group mt-20"> <label for="lname" class="col-sm-3 control-label">Last Name:</label> <div class="col-sm-9"> <input type="text" name="lname" class="form-control" id="lname" ng-model="user.name"> </div> </div> <div class="form-group"> <label for="email" class="col-sm-3 control-label">Email</label> <div class="col-sm-9"> <input type="email" name="email" class="form-control" id="email" placeholder="e.g. email@gmail.com" ng-model="user.email" disabled> <p class="help-block text-white"><a href="mailto:sem@kontakt.com">Contact us</a> to change your email address.</p> </div> </div> <div class="form-group"> <label for="password" class="col-sm-3 control-label">Password</label> <div class="col-sm-9"> <button class="btn btn-default btn-sm b-0 br-2" ng-click="passwordModal('sm')">Change password</button> </div> </div> <div class="form-group"> <label for="company" class="col-sm-3 control-label">Company</label> <div class="col-sm-9"> <input type="text" name="company" class="form-control" placeholder="e.g Doueysoft inc." ng-model="user.organization.name" disabled> </div> </div> <div class="form-group"> <label for="address" class="col-sm-3 control-label">Company Address</label> <div class="col-sm-9"> <input type="text" name="address" class="form-control" placeholder="e.g Douyestreet 6, 04200 Douyeland" ng-model="user.organization.address"> </div> </div> <div class="form-group"> <label for="country" class="col-sm-3 control-label">Country</label> <div class="col-sm-9"> <input type="text" name="country" class="form-control" placeholder="e.g Finland" ng-model="user.organization.country"> </div> </div> <div class="form-group"> <label for="vat" class="col-sm-3 control-label">Company VAT</label> <div class="col-sm-9"> <input type="text" name="vat" class="form-control" placeholder="FI12345678" ng-model="user.organization.vat"> </div> </div> <div class="form-group"> <label for="background" class="col-sm-3 control-label">What's your background?</label> <div class="col-sm-9"> <select chosen="{width: '100%'}" class="chosen-transparent" name="background" data-placeholder="Select a background" no-results-text="'Could not find any backgrounds :('" ng-model="user.organization.background" ng-options="background for background in backgrounds"> <option> </select> </div> </div> </form> </div> </div> </div> <!-- /tile body --> <div class="tile-footer text-right bg-tr-black lter dvd dvd-top"> <!-- SUBMIT BUTTON --> <button class="btn btn-success" ng-click="saveUser()" ng-disabled="form.$invalid">Save</button> </div> </section> <!-- /tile --> </div> <!-- /col --> </div> <!-- /row --> <!-- row --> <div class="row"> <!-- col --> <div class="col-md-12"> <!-- tile --> <section class="tile tile-simple bg-white"> <!-- tile header --> <div class="tile-header"> <h1 class="custom-font"><strong>Subscription</strong> Plans</h1> </div> <!-- /tile header --> <!-- tile body --> <div class="tile-body"> <div class="row price-plans"> <div class="col-sm-4"> <div class="price-plan popular" ng-class="{selected: currentUser.subscription === 'Putter'}"> <!-- plan type --> <div class="plan-type"> <h4>Putter</h4> <span>Open Beta</span> <!--<span ng-show="currentUser.subscription === 'putter'">Currently Using</span>--> </div> <!-- end plan type --> <!-- plan pricing --> <div class="plan-price"> <span class="unit">€</span> <span class="price">0</span> <span class="period">Per Month</span> </div> <!-- end plan pricing --> <!-- plan features --> <div class="plan-features" style="min-height: 285px"> <ul> <li><strong>All</strong> technologies supported</li> <li><strong>Realtime</strong> sync</li> <li><strong>REST</strong> API</li> <li><strong>1</strong> mobile app</li> <li class="text-greensea text-strong">Community Support via mailing list</li> </ul> </div> <!-- end plan-features --> <!-- plan actions --> <div class="plan-actions"> <a href="javascript:;" ng-click="orderModal('sm'); order.plan = 'Putter'">Order Subscription!</a> <!--<a href="#" id="customButton" stripe-checkout="Putter" ng-click="plan.selected = 'putter'">Sign Up Now!</a>--> <!--<a href="#" id="customButton" disabled>Currently Using!</a>--> </div> <!-- end plan actions --> </div> </div> <div class="col-sm-4"> <div class="price-plan" ng-class="{selected: currentUser.subscription === 'Midrange'}"> <!-- plan type --> <div class="plan-type"> <h4>Midrange</h4> <!--<span ng-hide="currentUser.subscription === 'midrange'">Most popular</span>
+                  <span ng-show="currentUser.subscription === 'midrange'">Currently Using</span>--> </div> <!-- end plan type --> <!-- plan pricing --> <div class="plan-price"> <span class="unit">€</span> <span class="price">149</span> <span class="period">Per Month</span> </div> <!-- end plan pricing --> <!-- plan features --> <div class="plan-features" style="min-height: 285px"> <ul> <li><strong>All</strong> technologies supported</li> <li><strong>Realtime</strong> sync</li> <li><strong>REST</strong> API</li> <li><strong>1</strong> mobile app</li> <li class="text-greensea text-strong">Ticket based support with 24 hours response time</li> <li class="text-greensea text-strong">Analytics</li> <li class="text-greensea text-strong">Subaccount support</li> </ul> </div> <!-- end plan-features --> <!-- plan actions --> <div class="plan-actions"> <a href="javascript:;" ng-click="orderModal('sm'); order.plan = 'Midrange'">Order Subscription!</a> </div> <!-- end plan actions --> </div> </div> <div class="col-sm-4"> <div class="price-plan" ng-class="{selected: currentUser.subscription === 'Driver'}"> <!-- plan type --> <div class="plan-type"> <h4>Driver</h4> <!--<span ng-show="currentUser.subscription === 'driver'">Currently Using</span>--> </div> <!-- end plan type --> <!-- plan pricing --> <div class="plan-price"> <span class="unit">€</span> <span class="price">299</span> <span class="period">Per Month</span> </div> <!-- end plan pricing --> <!-- plan features --> <div class="plan-features"> <ul> <li><strong>All</strong> technologies supported</li> <li><strong>Realtime</strong> sync</li> <li><strong>REST</strong> API</li> <li><strong>1</strong> mobile app</li> <li class="text-greensea text-strong">Phone support during business hours (Helsinki GMT+3)</li> <li class="text-greensea text-strong">Analytics & Reporting</li> <li class="text-greensea text-strong">Subaccount support</li> <li class="text-greensea text-strong">Proximi.io Orchestrator</li> </ul> </div> <!-- end plan-features --> <!-- plan actions --> <div class="plan-actions"> <a href="javascript:;" ng-click="orderModal('sm'); order.plan = 'Driver'">Order Subscription!</a> </div> <!-- end plan actions --> </div> </div> </div> </div> <!-- /tile body --> </section> <!-- /tile --> </div> <!-- /col --> </div> <!-- /row --> </div> <script type="text/ng-template" id="orderModal.html"><div class="modal-header">
+    <h3 class="modal-title custom-font"><i class="fa fa-shopping-cart mr-5"></i> Order Subscription</h3>
+  </div>
+  <div class="modal-body">
+
+    <form name="orderForm" class="form-horizontal form-validation" role="form" novalidate>
+
+      <div class="form-group mt-20">
+        <label for="plan" class="col-sm-6 control-label">Subscription Plan <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-6">
+          <select chosen="{width: '100%'}"
+                  data-placeholder="Select a Plan"
+                  no-results-text="'Could not find any plans :('"
+                  ng-model="order.plan"
+                  ng-options="plan for plan in plans"
+                  required>
+            <option></option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="card_number" class="col-sm-6 control-label">Card Number <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-6">
+          <input type="text" maxlength="16" name="card_number" class="form-control" id="card_number" placeholder="e.g 4242424242424242" ng-model="order.card_number" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="card_cvc" class="col-sm-6 control-label">CVC <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-6">
+          <input type="text" maxlength="4" name="card_cvc" class="form-control" id="card_cvc" placeholder="e.g 111" ng-model="order.card_cvc" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="card_expiration_month" class="col-sm-6 control-label">Expiration (MM/YYYY) <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-3">
+          <input type="text" maxlength="2" name="card_expiration_month" class="form-control" id="card_expiration_month" placeholder="e.g 01" ng-model="order.card_expiration_month" required>
+        </div>
+        <div class="col-sm-3">
+          <input type="text" maxlength="4" name="card_expiration_year" class="form-control" id="card_expiration_year" placeholder="e.g 2016" ng-model="order.card_expiration_year" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="coupon" class="col-sm-6 control-label">Coupon</label>
+        <div class="col-sm-6">
+          <input type="text" name="coupon" class="form-control" id="coupon" placeholder="e.g 25OFF" ng-model="order.coupon">
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+  <div class="modal-footer">
+
+    <span ng-hide="!order.postingStripe"><i class="fa fa-circle-o-notch fa-spin pull-left"></i></span>
+    <button class="btn btn-success b-0" ng-click="ok()" ng-disabled="orderForm.$invalid || order.postingStripe"> Submit</button>
+    <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
+
+  </div></script> <script type="text/ng-template" id="passwordModal.html"><div class="modal-header">
+    <h3 class="modal-title custom-font"><i class="fa fa-key mr-5"></i> Change Password</h3>
+  </div>
+  <div class="modal-body">
+
+    <form name="passwordForm" class="form-horizontal form-validation" role="form" novalidate>
+
+      <div class="form-group">
+        <label for="old_pass" class="col-sm-6 control-label">Old Password <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-6">
+          <input type="password" name="old_pass" class="form-control" id="old_pass" placeholder="e.g myoldpassword" ng-minlength="6" ng-model="password.old_pass" required>
+          <p class="help-block text-left">
+            <span ng-show="passwordForm.old_pass.$invalid && !passwordForm.old_pass.$pristine">Password is required.</span>
+            <span ng-show="passwordForm.old_pass.$error.minlength">Password is too short.</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="new_pass" class="col-sm-6 control-label">New Password <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-6">
+          <input type="password" name="new_pass" class="form-control" id="new_pass" placeholder="e.g mynewpassword" ng-minlength="6" ng-model="password.new_pass" required>
+          <p class="help-block text-left">
+            <span ng-show="passwordForm.new_pass.$invalid && !passwordForm.new_pass.$pristine">Password is required.</span>
+            <span ng-show="passwordForm.new_pass.$error.minlength">Password is too short.</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="new_pass_confirm" class="col-sm-6 control-label">Password Confirmation <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-6">
+          <input type="password" name="new_pass_confirm" placeholder="e.g mynewpassword" class="form-control" ng-model="password.new_pass_confirm" ui-validate=" '$value==password.new_pass' " ui-validate-watch=" 'password.new_pass' " required>
+          <p class="help-block text-left">
+            <span ng-show='passwordForm.new_pass_confirm.$error.validator' class="text-red">Passwords do not match!</span>
+          </p>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+  <div class="modal-footer">
+
+    <button class="btn btn-success b-0" ng-click="ok()" ng-disabled="passwordForm.$invalid"> Submit</button>
+    <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
+
+  </div></script>

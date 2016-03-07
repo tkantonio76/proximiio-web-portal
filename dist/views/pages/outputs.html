@@ -1,0 +1,137 @@
+<div class="page page-outputs"> <div class="pageheader"> <h2><i class="fa fa-play-circle"></i> {{page.title}}</h2> <div class="page-bar"> <ul class="page-breadcrumb"> <li> <a ui-sref="app.dashboard"><i class="fa fa-home"></i> {{main.title}}</a> </li> <li> <a ui-sref="app.outputs">{{page.title}}</a> </li> </ul> </div> </div> <!-- row --> <div class="row"> <div class="col-md-12"> <!-- tile --> <section class="tile bg-dummy" fullscreen="isFullscreen01"> <!-- tile header --> <div class="tile-header dvd dvd-btm"> <h1 class="custom-font"><strong>Manage </strong>Outputs</h1> <ul class="controls"> <li><a href="javascript:;" ng-click="openModal()"><i class="fa fa-plus mr-5"></i> Add Output</a></li> <li class="dropdown" dropdown on-toggle="toggled(open)"> <a href dropdown-toggle class="dropdown-toggle snippets"><i class="fa fa-ellipsis-v"></i></a> <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp"> <li> <a href ng-click="getSnippet('outputs')"> <i class="fa fa-terminal"></i> Get CURL snippet </a> </li> </ul> </li> <li class="dropdown" dropdown on-toggle="toggled(open)"> <a href dropdown-toggle class="dropdown-toggle settings"><i class="fa fa-cog"></i></a> <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp"> <li> <a href tile-control-toggle> <span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span> <span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span> </a> </li> <li> <a href tile-control-refresh ng-click="ajaxFaker()"> <i class="fa fa-refresh"></i> Refresh </a> </li> <li> <a href tile-control-fullscreen ng-click="isFullscreen01 = !isFullscreen01"> <i class="fa fa-expand"></i> Fullscreen </a> </li> </ul> </li> <li class="remove"><a href tile-control-close><i class="fa fa-times"></i></a></li> </ul> </div> <!-- /tile header --> <!-- tile body --> <div class="tile-body"> <div class="row"> <div class="col-md-6"></div> <div class="col-md-6"> <input type="text" class="form-control underline-input w-md pull-right mb-20" placeholder="Search..." ng-model="searchText"> </div> </div> <div class="table-responsive"> <table ng-table="tableParams" class="table table-custom" template-pagination="custom/pager"> <tr ng-repeat="output in $data | filter:searchText"> <td data-title="'Name'" sortable> <a href="javascript:;" ng-click="showOutput(output)">{{output.name}}</a>  <td data-title="'Type'" sortable> {{output.type}}  <td data-title="'Title'" sortable> {{output.title}}  <td data-title="'Actions'" class="actions"> <a href="javascript:;" class="edit" ng-click="openModal(output)">Edit</a> <a href="javascript:;" class="delete" ng-click="deleteOutput(output)">Delete</a>   </table> <script type="text/ng-template" id="custom/pager"><div class="ng-cloak ng-table-pager mt-20" ng-if="params.data.length">
+
+                <div ng-if="params.settings().counts.length" class="ng-table-counts btn-group pull-right">
+
+                  <select ng-options="count for count in params.settings().counts" ng-model="params.$params.count" class="form-control"></select>
+
+                </div>
+
+                <ul class="pagination pagination-xs pagination-custom">
+                  <li ng-class="{'disabled': !page.active && !page.current, 'active': page.current}" ng-repeat="page in pages" ng-switch="page.type">
+                    <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">Previous</a>
+                    <a ng-switch-when="first" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="page" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
+                    <a ng-switch-when="last" ng-click="params.page(page.number)" href="">
+                      <span ng-bind="page.number"></span>
+                    </a>
+                    <a ng-switch-when="next" ng-click="params.page(page.number)" href="">Next</a>
+                  </li>
+                </ul>
+              </div></script> </div> </div> <!-- /tile body --> </section> <!-- /tile --> </div> </div> <!-- /row --> </div> <script type="text/ng-template" id="outputControlModal.html"><div class="modal-header">
+    <h3 class="modal-title custom-font" ng-hide="editOutput"><i class="fa fa-play-circle mr-5"></i> Add Output</h3>
+    <h3 class="modal-title custom-font" ng-show="editOutput"><i class="fa fa-play-circle mr-5"></i> Edit Output</h3>
+  </div>
+  <div class="modal-body">
+
+
+
+    <form name="addOutputForm" class="form-horizontal form-validation mt-20" role="form" novalidate>
+
+      <div class="form-group">
+        <label for="name" class="col-sm-3 control-label">Name <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-9">
+          <input type="text" name="name" class="form-control" id="name" placeholder="Output Name..." ng-model="output.name" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Type <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-9">
+          <select ng-model="output.type" data-placeholder="Select a output type" ui-jq="chosen" ui-options="{
+              width: '100%'
+            }" required ng-disabled="editInput">
+              <option></option>
+              <option>XHTML</option>
+              <option>Raw Data</option>
+              <option>Push Messages</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group" ng-show="output.type === 'XHTML' || output.type === 'Push Messages'">
+        <label for="title" class="col-sm-3 control-label">Title <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-9">
+          <input type="text" name="title" class="form-control" id="title" placeholder="Output Title..." ng-model="output.title" ng-required="output.type === 'XHTML' || output.type === 'Push Messages'">
+        </div>
+      </div>
+
+      <div class="form-group" ng-show="output.type === 'XHTML'">
+        <label class="col-sm-3 control-label">Content <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-9">
+          <text-angular ng-model="output.content" ng-required="output.type === 'XHTML'"></text-angular>
+        </div>
+      </div>
+
+      <div class="form-group" ng-show="output.type === 'Push Messages'">
+        <label for="outputContent" class="col-sm-3 control-label">Content <span class="text-danger" style="font-size: 15px;">*</span></label>
+        <div class="col-sm-9">
+          <textarea class="form-control" id="outputContent" name="outputContent" placeholder="Output Content..." ng-model="output.content" ng-required="output.type === 'Push Messages'" rows="6"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group" ng-show="output.type === 'Raw Data'">
+        <label class="control-label col-sm-3">Key Value Pairs</label>
+        <div class="col-sm-9">
+
+          <div class="table-responsive" style="max-height: 260px; overflow-x: auto">
+            <table class="table table-condensed modal-table">
+              <thead ng-class="{'hide': pairs.length === 0}">
+              <tr>
+                <th style="width: 200px;">Key</th>
+                <th>Value</th>
+                <th></th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="pair in pairs">
+                <td><input type="text" class="form-control input-sm" ng-model="pair.key"/></td>
+                <td><input step="any" type="{{pair.type}}" class="form-control input-sm" ng-model="pair.value"/></td>
+                <td>
+                  <select class="form-control input-sm" ng-options="k as v for (k,v) in inputTypes" ng-model="pair.type" placeholder="Choose a type"></select>
+                </td>
+                <td><a href="javascript:;" class="inline-block" style="padding: 5px" ng-click="removePair($index)"><i class="fa fa-trash"></i></a></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <a href="javascript:;" class="table-operation link-effect link-effect-1" ng-click="addPair()">ADD</a>
+
+        </div>
+      </div>
+
+    </form>
+
+
+
+  </div>
+
+  <div class="modal-footer">
+
+    <button class="btn btn-success b-0" ng-click="ok()" ng-disabled="addOutputForm.$invalid">Submit</button>
+    <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
+
+  </div></script> <script type="text/ng-template" id="outputViewModal.html"><div class="modal-header">
+    <h3 class="modal-title custom-font"><i class="fa fa-map-marker mr-5"></i> Output Details | {{output.name}}</h3>
+  </div>
+  <div class="modal-body">
+
+
+    <ul class="list-unstyled m-20">
+      <li><strong>Output Name:</strong> {{output.name}}</li>
+      <li><strong>Output Type:</strong> {{output.type}}</li>
+      <li><strong>Output Title:</strong> {{output.title}}</li>
+      <li><p ng-bind-html="output.content" class="well mt-20"></p></li>
+    </ul>
+
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Close</button>
+  </div></script>
