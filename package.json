@@ -1,5 +1,5 @@
 {
-  "name": "proximiio-portal",
+  "name": "proximiio",
   "version": "0.0.1",
   "dependencies": {
     "cfenv": "~1.0.0",

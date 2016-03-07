@@ -1,4 +1,4 @@
-## proximiio-web-management-angular
+## proximiio-portal
 
 
 1. run "npm-install" to install dependencies
