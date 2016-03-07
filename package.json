@@ -1,6 +1,6 @@
 {
   "name": "proximiio",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "bin": {
     "proximiio": "./index.js"
   },
@@ -21,6 +21,7 @@
     "node-red-nodes-cf-sqldb-dashdb": "0.x",
     "open": "0.0.5",
     "redis": "~0.10.1",
+    "uuid": "^2.0.1",
     "when": "^3.7.4"
   },
   "devDependencies": {
