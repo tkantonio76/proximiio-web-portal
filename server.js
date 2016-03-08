@@ -100,7 +100,9 @@ var initNodeRed = function(instance) {
 };
 
 app.initInstance = function(instance) {
-  proximiioInstance = instance;
+  if (proximiioInstance != null) {
+    RED.stop();
+  }
   initNodeRed(proximiioInstance);
 };
 
@@ -125,7 +127,7 @@ var server = http.createServer(app);
 
 program._name = 'proximiio';
 program
-    .version('0.0.12');
+    .version('0.0.13');
 
 program
     .command('start')
