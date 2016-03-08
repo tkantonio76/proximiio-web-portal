@@ -12,11 +12,11 @@
 
 ## Configuration
 By default Proximi.io server runs at port **8000** and stores all files into **.proximiio** directory in user's home.
-You can override these values by setting environment variables PROXIMIIO_HOME and PROXIMIIO_PORT
+You can override these values by setting environment variables PROXIMIIO_HOME and PORT
 
 ```
     export PROXIMIIO_HOME=/opt/proximiio
-    export PROXIMIIO_PORT=8043
+    export PORT=8043
 ```
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/proximiio/proximiio-web-portal)

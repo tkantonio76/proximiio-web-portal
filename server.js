@@ -7,14 +7,14 @@ var program = require('commander');
 var fs = require('fs');
 var app = express();
 
+var httpPort = process.env.PORT || 8000;
+
 var homeDir = process.env.HOME || process.env.USERPROFILE;
 var proximiioPath = process.env.PROXIMIIO_HOME || homeDir + "/.proximiio";
 var proximiioInstancePath = proximiioPath + '/proximiio.json';
 var proximiioDirExists = false;
 var proximiioInstanceExists = false;
 var proximiioInstance = null;
-
-var httpPort = process.env.PROXIMIIO_PORT || 8000;
 
 try {
   if (!fs.existsSync(proximiioPath)) {
@@ -125,7 +125,7 @@ var server = http.createServer(app);
 
 program._name = 'proximiio';
 program
-    .version('0.0.10');
+    .version('0.0.12');
 
 program
     .command('start')
