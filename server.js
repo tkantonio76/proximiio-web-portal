@@ -105,6 +105,7 @@ app.initInstance = function(instance) {
   if (proximiioInstance != null) {
     RED.stop();
   }
+  proximiioInstance = instance;
   initNodeRed(proximiioInstance);
 };
 
@@ -113,9 +114,10 @@ var postInstance = function(req, res) {
     fs.writeFile(proximiioInstancePath, JSON.stringify(req.body), function(err) {
       if (err) {
         console.error(new Date(), 'unable to write instance file:', err);
+        res.status(500).send({message: "Unable to write instance file"});
       } else {
-        res.send(JSON.stringify({success: true}));
         app.initInstance(req.body);
+        res.send(JSON.stringify({success: true}));
       }
     });
   } else {
@@ -129,7 +131,7 @@ var server = http.createServer(app);
 
 program._name = 'proximiio';
 program
-  .version('0.0.16');
+  .version('0.0.17');
 
 program
   .command('start')
