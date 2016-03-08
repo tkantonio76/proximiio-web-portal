@@ -1,5 +1,4 @@
-#!/usr/bin/env node --harmony
-
+#!/usr/bin/env node
 var http = require('http');
 var express = require('express');
 var RED = require('node-red-custom');
@@ -10,18 +9,39 @@ var fs = require('fs');
 // Create an Express app
 var app = express();
 
-var instance = null;
+var homeDir = process.env.HOME || process.env.USERPROFILE;
+var proximiioPath = homeDir + "/.proximiio";
+var proximiioDirExists = false;
+var proximiioInstanceExists = false;
+var proximiioInstance = null;
+
 try {
-   instance = fs.readFileSync('./proximiio.json', 'utf8');
-   instance = JSON.parse(instance);
+  if (!fs.existsSync(proximiioPath)) {
+    console.log('proximiio directory: ', proximiioPath, ' does not exist yet, creating...');
+    fs.mkdirSync(proximiioPath);
+  }
+  proximiioDirExists = true;
+  if (proximiioDirExists) {
+    proximiioInstanceExists = fs.existsSync(proximiioPath + '/proximiio.json');
+    if (proximiioInstanceExists) {
+      var instanceFile = fs.readFileSync(proximiioPath + '/proximiio.json', 'utf8');
+      proximiioInstance = JSON.parse(instanceFile);
+      console.log('proximi.io instance registered to: ', proximiioInstance.organization.name);
+    } else {
+      console.log('proximi.io instance not yet registered');
+    }
+  }
 } catch(e) {
-   console.log('err', e);
-   instance = null;
+  if (!proximiioDirExists) {
+    console.log('unable to create proximiio dir');
+  }
+  proximiioInstance = null;
 }
 
-console.log('found instance', instance);
-var instanceController = new InstanceController(instance);
-
+if (!proximiioDirExists) {
+  console.error('unable to create ~/.proximiio directory');
+  process.exit();
+}
 // Configuration
 
 //app.set('views', __dirname + '/app');
@@ -39,86 +59,74 @@ app.use('/public', express.static(__dirname + '/public'));
 //app.use(app.router);
 //app.engine('html', require('ejs').renderFile);
 
+var instanceController = new InstanceController(proximiioPath, proximiioInstance, app);
 app.use('/instance', instanceController.router);
 
 app.get('/', function(request, response) {
   response.render('dist/index.html')
 });
 
+var initNodeRed = function(instance) {
+  // Create the settings object - see default settings.js file for other options
+  var settings = {
+    proximiio: instance,
+    httpAdminRoot:"/red",
+    httpNodeRoot: "/api",
+    userDir: proximiioPath,
+    nodesDir: __dirname + '/nodes',
+    functionGlobalContext: {},    // enables global context
+    editorTheme: {
+      page: {
+        title: "Proximi.io",
+        //favicon: "/absolute/path/to/theme/icon",
+        css: ["custom.css"]
+      },
+      header: {
+        title: "",
+        image: "", // or null to remove image
+        url: "" // optional url to make the header text/image a link to this url
+      }
+    }
+  };
+
+  RED.init(server, settings);
+
+  // Serve the editor UI from /orchestrator
+  app.use(settings.httpAdminRoot, RED.httpAdmin);
+
+  // Serve the http nodes UI from /api
+  app.use(settings.httpNodeRoot, RED.httpNode);
+
+  // Start the runtime
+  RED.start();
+};
+
+app.initInstance = function(instance) {
+  proximiioInstance = instance;
+  initNodeRed(proximiioInstance);
+};
+
 // Create a server
 var server = http.createServer(app);
 
-// Create the settings object - see default settings.js file for other options
-var settings = {
-    httpAdminRoot:"/red",
-    httpNodeRoot: "/api",
-    userDir: __dirname,
-    nodesDir: __dirname + '/nodes',
-    proximiio: instance,
-    functionGlobalContext: {
-
-    },    // enables global context
-    editorTheme: {
-        page: {
-          title: "Proximi.io",
-          //favicon: "/absolute/path/to/theme/icon",
-          css: ["custom.css"]
-        },
-        header: {
-          title: "",
-          image: "", // or null to remove image
-          url: "" // optional url to make the header text/image a link to this url
-        }
-
-        /*deployButton: {
-         type:"simple",
-         label:"Save",
-         icon: "/absolute/path/to/deploy/button/image" // or null to remove image
-         },
-
-         menu: { // Hide unwanted menu items by id. see editor/js/main.js:loadEditor for complete list
-         "menu-item-import-library": false,
-         "menu-item-export-library": false,
-         "menu-item-keyboard-shortcuts": false,
-         "menu-item-help": {
-         label: "Alternative Help Link Text",
-         url: "http://example.com"
-         }
-         },
-
-         userMenu: false, // Hide the user-menu even if adminAuth is enabled
-
-         login: {
-         image: "/absolute/path/to/login/page/big/image" // a 256x256 image
-         }*/
-    }
-};
-
 program._name = 'proximiio';
 program
-  .version('0.0.1');
+  .version('0.0.7');
 
 program
   .command('start')
   .description('initialize proximi.io portal')
-  .action(function(){
+  .action(function() {
     console.log('starting portal...');
     // Initialise the runtime with a server and settings
-    RED.init(server,settings);
 
-    // Serve the editor UI from /orchestrator
-    app.use(settings.httpAdminRoot,RED.httpAdmin);
-
-    // Serve the http nodes UI from /api
-    app.use(settings.httpNodeRoot,RED.httpNode);
+    if (proximiioInstanceExists) {
+      app.initInstance(proximiioInstance);
+    }
 
     server.listen(8000);
-
-    // Start the runtime
-    RED.start();
-
     open('http://localhost:8000');
-});
+  });
 
 program.parse(process.argv);
 

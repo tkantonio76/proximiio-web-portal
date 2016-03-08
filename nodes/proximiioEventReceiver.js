@@ -28,9 +28,9 @@ module.exports = function(RED) {
       // ignore already processed events
       if (typeof event.processed == 'undefined' || event.processed == false) {
         node.send([event, {_event: event}]);
-      } 
-    }
-   
+      }
+    };
+
     this.ref.on('child_added', onChildAdded);
 
     this.on('close', function(done) {

@@ -3,9 +3,9 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 
-module.exports = function(instance) {
+module.exports = function(proximiioPath, instance, app) {
   var _this = this;
-  var keyFile = __dirname + '/proximiio.json';
+  var keyFile = proximiioPath + '/proximiio.json';
   var lastToken = null;
 
   this.get = function(req, res) {
@@ -26,6 +26,7 @@ module.exports = function(instance) {
           console.log(new Date(), 'error:', err);
         } else {
           res.send(JSON.stringify({success: true}));
+          app.initInstance(req.body);
         }
       });
     } else {

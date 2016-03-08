@@ -1,10 +1,8 @@
 {
   "name": "proximiio",
-  "version": "0.0.8",
-  "bin": {
-    "proximiio": "./index.js"
-  },
+  "version": "0.0.7",
   "dependencies": {
+    "bson": "^0.4.22",
     "cfenv": "~1.0.0",
     "commander": "^2.9.0",
     "express": "^4.13.3",
@@ -21,6 +19,7 @@
     "node-red-nodes-cf-sqldb-dashdb": "0.x",
     "open": "0.0.5",
     "redis": "~0.10.1",
+    "request": "^2.69.0",
     "uuid": "^2.0.1",
     "when": "^3.7.4"
   },
@@ -60,5 +59,8 @@
   },
   "scripts": {
     "test": "grunt test"
+  },
+  "bin": {
+    "proximiio": "./index.js"
   }
 }

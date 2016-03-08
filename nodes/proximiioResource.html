@@ -1,0 +1,42 @@
+<script type="text/javascript">
+  RED.nodes.registerType('proximiio-resource',{
+    category: 'proximiio',  // the palette category
+    color: '#00b7e8',
+    inputs:1,               // set the number of inputs - only 0 or 1
+    outputs:1,              // set the number of outputs - 0 to n
+    icon: 'proximiio.png',  // saved in icons/myicon.png
+    paletteLabel: 'Proximi.io Resource',
+    label: "Proximi.io Resource",
+    defaults: {
+      resource: {value:"places"},
+      resource_id: {value:""}
+    }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="proximiio-resource">
+  <div class="form-row">
+    <label for="node-input-resource"><i class="fa fa-tag"></i> Resource</label>
+    <br/>
+    <select id="node-input-resource">
+      <option id="">Select Resource</option>
+      <option id="departments">departments</option>
+      <option id="events">events</option>
+      <option id="floors">floors</option>
+      <option id="geofences">geofences</option>
+      <option id="places">places</option>
+      <option id="visitors">visitors</option>
+    </select>
+    <br/>
+    <label for="node-input-resource_id"><i class="fa fa-tag"></i> Resource ID</label>
+    <br/>
+    <input type="text" id="node-input-resource_id"/>
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="proximiio-resource">
+    <b>EventResource</b>
+    <p>provides access to Proximi.io resources</p>
+    <h2>Message properties</h2>
+    <p>if you want to fetch specific record by id, add <b>resource_id</b> value to input message.</p>
+</script>
