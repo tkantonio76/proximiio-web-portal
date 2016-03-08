@@ -4,16 +4,17 @@ var express = require('express');
 var RED = require('node-red-custom');
 var open = require('open');
 var program = require('commander');
-var InstanceController = require('./instanceController');
 var fs = require('fs');
-// Create an Express app
 var app = express();
 
 var homeDir = process.env.HOME || process.env.USERPROFILE;
-var proximiioPath = homeDir + "/.proximiio";
+var proximiioPath = process.env.PROXIMIIO_HOME || homeDir + "/.proximiio";
+var proximiioInstancePath = proximiioPath + '/proximiio.json';
 var proximiioDirExists = false;
 var proximiioInstanceExists = false;
 var proximiioInstance = null;
+
+var httpPort = process.env.PROXIMIIO_PORT || 8000;
 
 try {
   if (!fs.existsSync(proximiioPath)) {
@@ -22,11 +23,11 @@ try {
   }
   proximiioDirExists = true;
   if (proximiioDirExists) {
-    proximiioInstanceExists = fs.existsSync(proximiioPath + '/proximiio.json');
+    proximiioInstanceExists = fs.existsSync(proximiioInstancePath);
     if (proximiioInstanceExists) {
-      var instanceFile = fs.readFileSync(proximiioPath + '/proximiio.json', 'utf8');
+      var instanceFile = fs.readFileSync(proximiioInstancePath, 'utf8');
       proximiioInstance = JSON.parse(instanceFile);
-      console.log('proximi.io instance registered to: ', proximiioInstance.organization.name);
+      console.log('proximi.io instance registered to:', proximiioInstance.organization.name);
     } else {
       console.log('proximi.io instance not yet registered');
     }
@@ -58,9 +59,6 @@ app.use('/public', express.static(__dirname + '/public'));
 //app.use('/bower_components', express.static(__dirname + '/bower_components'));
 //app.use(app.router);
 //app.engine('html', require('ejs').renderFile);
-
-var instanceController = new InstanceController(proximiioPath, proximiioInstance, app);
-app.use('/instance', instanceController.router);
 
 app.get('/', function(request, response) {
   response.render('dist/index.html')
@@ -106,27 +104,43 @@ app.initInstance = function(instance) {
   initNodeRed(proximiioInstance);
 };
 
+var postInstance = function(req, res) {
+  if (typeof(req.body)!='undefined') {
+    fs.writeFile(proximiioInstancePath, JSON.stringify(req.body), function(err) {
+      if (err) {
+        console.error(new Date(), 'unable to write instance file:', err);
+      } else {
+        res.send(JSON.stringify({success: true}));
+        app.initInstance(req.body);
+      }
+    });
+  } else {
+    res.status(500).send({message: "Request missing body"});
+  }
+};
+app.post('/instance', postInstance);
+
 // Create a server
 var server = http.createServer(app);
 
 program._name = 'proximiio';
 program
-  .version('0.0.7');
+    .version('0.0.10');
 
 program
-  .command('start')
-  .description('initialize proximi.io portal')
-  .action(function() {
-    console.log('starting portal...');
-    // Initialise the runtime with a server and settings
+    .command('start')
+    .description('initialize proximi.io portal')
+    .action(function() {
+      console.log('initializing portal...');
 
-    if (proximiioInstanceExists) {
-      app.initInstance(proximiioInstance);
-    }
+      if (proximiioInstanceExists) {
+        app.initInstance(proximiioInstance);
+      }
 
-    server.listen(8000);
-    open('http://localhost:8000');
-  });
+      server.listen(httpPort);
+      console.log('server running at port: ', httpPort);
+      open('http://localhost:' + httpPort);
+    });
 
 program.parse(process.argv);
 
