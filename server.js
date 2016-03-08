@@ -5,9 +5,8 @@ var RED = require('node-red-custom');
 var open = require('open');
 var program = require('commander');
 var fs = require('fs');
-var app = express();
 
-var httpPort = process.env.PORT || 8000;
+var app = express();
 
 var homeDir = process.env.HOME || process.env.USERPROFILE;
 var proximiioPath = process.env.PROXIMIIO_HOME || homeDir + "/.proximiio";
@@ -15,6 +14,8 @@ var proximiioInstancePath = proximiioPath + '/proximiio.json';
 var proximiioDirExists = false;
 var proximiioInstanceExists = false;
 var proximiioInstance = null;
+
+var httpPort = process.env.PORT || 8000;
 
 try {
   if (!fs.existsSync(proximiioPath)) {
@@ -72,6 +73,7 @@ var initNodeRed = function(instance) {
     httpNodeRoot: "/api",
     userDir: proximiioPath,
     nodesDir: __dirname + '/nodes',
+    storageModule: require('./proximiio_red_adapter'),
     functionGlobalContext: {},    // enables global context
     editorTheme: {
       page: {
@@ -127,22 +129,22 @@ var server = http.createServer(app);
 
 program._name = 'proximiio';
 program
-    .version('0.0.14');
+  .version('0.0.15');
 
 program
-    .command('start')
-    .description('initialize proximi.io portal')
-    .action(function() {
-      console.log('initializing portal...');
+  .command('start')
+  .description('initialize proximi.io portal')
+  .action(function() {
+    console.log('initializing portal...');
 
-      if (proximiioInstanceExists) {
-        app.initInstance(proximiioInstance);
-      }
+    if (proximiioInstanceExists) {
+      app.initInstance(proximiioInstance);
+    }
 
-      server.listen(httpPort);
-      console.log('server running at port: ', httpPort);
-      open('http://localhost:' + httpPort);
-    });
+    server.listen(httpPort);
+    console.log('server running at port: ', httpPort);
+    open('http://localhost:' + httpPort);
+  });
 
 program.parse(process.argv);
 
