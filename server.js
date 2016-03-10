@@ -101,7 +101,7 @@ var initNodeRed = function(instance) {
 };
 
 app.redAdmin = function(req, res, next) {
-  if (typeof RED != "undefined" && RED != null) {
+  if (typeof RED != "undefined" && RED != null && typeof RED.httpAdmin != "undefined") {
     RED.httpAdmin(req, res, next);
   } else {
     res.send({success: true});
@@ -109,7 +109,7 @@ app.redAdmin = function(req, res, next) {
 };
 
 app.redNode = function(req, res, next) {
-  if (typeof RED != "undefined" && RED != null) {
+  if (typeof RED != "undefined" && RED != null && typeof RED.httpNode != "undefined") {
     RED.httpNode(req, res, next);
   } else {
     res.send({success: true});
