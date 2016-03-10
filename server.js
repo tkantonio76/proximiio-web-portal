@@ -122,6 +122,7 @@ app.use(RedHttpNodeRoot, app.redNode);
 app.initInstance = function(instance) {
   if (proximiioInstanceRunning) {
     if (proximiioInstance.organization.id != instance.organization.id) {
+      fs.unlinkSync(proximiioInstancePath);
       process.exit(1);
       //setTimeout(function() {
       //  RED = null;
