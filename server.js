@@ -122,7 +122,6 @@ app.use(RedHttpNodeRoot, app.redNode);
 app.initInstance = function(instance) {
   if (proximiioInstanceRunning) {
     if (proximiioInstance.organization.id != instance.organization.id) {
-      RED.comms.publish({message: "should stop"});
       process.exit(1);
       //setTimeout(function() {
       //  RED = null;
@@ -146,12 +145,13 @@ var postInstance = function(req, res) {
         console.error(new Date(), 'unable to write instance file:', err);
         res.status(500).send({message: "Unable to write instance file"});
       } else {
-        app.initInstance(req.body);
         var response = {success: true};
+        console.log('instance file written');
         if (proximiioInstanceRunning && proximiioInstance.organization.id != req.body.organization.id) {
           response.shutdown = true;
         }
         res.send(JSON.stringify(response));
+        app.initInstance(req.body);
       }
     });
   } else {
