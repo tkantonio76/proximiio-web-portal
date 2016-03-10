@@ -1,4 +1,4 @@
-var firebase = require('firebase');
+var Firebase = require('firebase');
 
 module.exports = function(RED) {
   function ProximiioEventTransmitter(config) {
@@ -10,7 +10,10 @@ module.exports = function(RED) {
     this.sentCount = 0;
     this.totalCount = 0;
 
-    this.on('input', function(data) {
+    this.inputRef = new Firebase(RED.settings.proximiio.organization.eventBusRef + '/proximity/');
+    this.outputRef = new Firebase(RED.settings.proximiio.organization.eventBusRef + '/output/');
+
+    this.onInput = function(data) {
       var inputEventId = data._proximi_id;
       var visitorId = data._proximi_visitor_id;
       if (typeof inputEventId != 'undefined') {
@@ -18,25 +21,22 @@ module.exports = function(RED) {
         update[inputEventId] = data;
         node.totalCount++;
         node.status({fill:"red",shape:"ring",text:"transmitting" });
-        var fbRef = RED.settings.proximiio.organization.eventBusRef + '/output/' + visitorId;
-        var ref = new Firebase(fbRef);
-        ref.update(update, function(error) {
+        node.outputRef.child(visitorId).update(update, function(error) {
+          console.log('update error', error);
           if (error) {
             console.log('error', error);
           } else {
             node.sentCount++;
             node.status({fill:"yellow",shape:"ring",text:"waiting (" + node.sentCount + "/" + node.totalCount  + ")"});
+            node.inputRef.child(inputEventId).update({processed: true});
           }
         });
-     
-        // mark processed
-        var fbInputRef = new Firebase(RED.settings.proximiio.organization.eventBusRef + '/proximity/' + inputEventId); 
-        var processed = {}; 
-        fbInputRef.update({ processed: true }, function(error) { if (error) { console.log('error', error); } });
       }
-    });
+    };
 
-    this.on('close', function(done) { 
+    this.on('input', this.onInput);
+
+    this.on('close', function(done) {
       done() 
     });
 

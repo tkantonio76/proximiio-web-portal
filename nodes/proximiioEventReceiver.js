@@ -1,4 +1,4 @@
-var firebase = require('firebase');
+var Firebase = require('firebase');
 
 module.exports = function(RED) {
   function ProximiioEventReceiver(config) {
@@ -8,7 +8,7 @@ module.exports = function(RED) {
     var fbRef = RED.settings.proximiio.organization.eventBusRef + '/proximity';
     this.status({fill:"red",shape:"ring",text:"disconnected"});
 
-    this.ref = new Firebase(fbRef);
+    this.ref = new Firebase(fbRef).limitToLast(1);
 
     var sanitize = function(event) {
       event._proximi_id = event.id;
@@ -24,7 +24,6 @@ module.exports = function(RED) {
     var onChildAdded = function(eventHandle) {
       node.status({fill:"green",shape:"dot",text:"connected"});
       var event = sanitize(eventHandle.val());
-
       // ignore already processed events
       if (typeof event.processed == 'undefined' || event.processed == false) {
         node.send([event, {_event: event}]);

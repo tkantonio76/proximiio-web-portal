@@ -1,4 +1,4 @@
-var firebase = require('firebase');
+var Firebase = require('firebase');
 
 module.exports = function(RED) {
     function ProximiioEventMarker(config) {
@@ -9,12 +9,12 @@ module.exports = function(RED) {
 
         this.totalCount = 0;
 
+        this.inputRef = new Firebase(RED.settings.proximiio.organization.eventBusRef + '/proximity');
         this.on('input', function(data) {
             var inputEventId = data._proximi_id;
             // mark processed
-            var fbInputRef = new Firebase(RED.settings.proximiio.organization.eventBusRef + '/proximity/' + inputEventId);
-            var processed = {};
-            fbInputRef.update({ processed: true }, function(error) {
+
+            node.inputRef.child(inputEventId).update({ processed: true }, function(error) {
                 if (error) {
                     node.status({fill:"red",shape:"ring",text:"error occured"});
                 } else {
@@ -25,7 +25,7 @@ module.exports = function(RED) {
         });
 
         this.on('close', function(done) {
-            done()
+            done();
         });
 
         return this;

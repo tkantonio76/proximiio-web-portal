@@ -46,7 +46,6 @@ var getData = function(url) {
                 } else {
                     results = response.data;
                 }
-                console.log('returning response:', response, 'for url', url);
                 resolve(results);
             }).error(function(error) {
                 reject(error);

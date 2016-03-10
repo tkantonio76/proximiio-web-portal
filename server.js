@@ -14,6 +14,7 @@ var proximiioInstancePath = proximiioPath + '/proximiio.json';
 var proximiioDirExists = false;
 var proximiioInstanceExists = false;
 var proximiioInstance = null;
+var proximiioInstanceRunning = false;
 
 var httpPort = process.env.PORT || 8000;
 
@@ -65,12 +66,15 @@ app.get('/', function(request, response) {
   response.render('dist/index.html')
 });
 
+var RedHttpAdminRoot = "/red";
+var RedHttpNodeRoot = "/api";
+
 var initNodeRed = function(instance) {
   // Create the settings object - see default settings.js file for other options
   var settings = {
     proximiio: instance,
-    httpAdminRoot:"/red",
-    httpNodeRoot: "/api",
+    httpAdminRoot:RedHttpAdminRoot,
+    httpNodeRoot: RedHttpNodeRoot,
     userDir: proximiioPath,
     nodesDir: __dirname + '/nodes',
     storageModule: require('./proximiio_red_adapter'),
@@ -90,23 +94,41 @@ var initNodeRed = function(instance) {
   };
 
   RED.init(server, settings);
-
-  // Serve the editor UI from /orchestrator
-  app.use(settings.httpAdminRoot, RED.httpAdmin);
-
-  // Serve the http nodes UI from /api
-  app.use(settings.httpNodeRoot, RED.httpNode);
-
   // Start the runtime
   RED.start();
+
+  proximiioInstanceRunning = true;
 };
 
+app.redAdmin = function(req, res, next) {
+  RED.httpAdmin(req, res, next);
+};
+
+app.redNode = function(req, res, next) {
+  RED.httpNode(req, res, next);
+};
+
+app.use(RedHttpAdminRoot, app.redAdmin);
+app.use(RedHttpNodeRoot, app.redNode);
+
 app.initInstance = function(instance) {
-  if (proximiioInstance != null) {
-    RED.stop();
+  if (proximiioInstanceRunning) {
+    if (proximiioInstance.organization.id != instance.organization.id) {
+      RED.comms.publish({message: "should stop"});
+      process.exit(1);
+      //setTimeout(function() {
+      //  RED = null;
+      //  RED = require('node-red-custom');
+      //  proximiioInstance = instance;
+      //  proximiioInstanceRunning = false;
+      //  initNodeRed(proximiioInstance);
+      //}, 3000);
+    }
+  } else {
+    console.log('initInstance: not running');
+    proximiioInstance = instance;
+    initNodeRed(proximiioInstance);
   }
-  proximiioInstance = instance;
-  initNodeRed(proximiioInstance);
 };
 
 var postInstance = function(req, res) {
@@ -117,13 +139,18 @@ var postInstance = function(req, res) {
         res.status(500).send({message: "Unable to write instance file"});
       } else {
         app.initInstance(req.body);
-        res.send(JSON.stringify({success: true}));
+        var response = {success: true};
+        if (proximiioInstanceRunning && proximiioInstance.organization.id != req.body.organization.id) {
+          response.shutdown = true;
+        }
+        res.send(JSON.stringify(response));
       }
     });
   } else {
     res.status(500).send({message: "Request missing body"});
   }
 };
+
 app.post('/instance', postInstance);
 
 // Create a server
@@ -131,7 +158,7 @@ var server = http.createServer(app);
 
 program._name = 'proximiio';
 program
-  .version('0.0.18');
+  .version('0.0.19');
 
 program
   .command('start')
@@ -144,7 +171,6 @@ program
     }
 
     server.listen(httpPort);
-    console.log('server running at port: ', httpPort);
     open('http://localhost:' + httpPort);
   });
 

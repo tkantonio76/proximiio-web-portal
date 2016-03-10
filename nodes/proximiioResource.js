@@ -28,7 +28,6 @@ module.exports = function(RED) {
     });
 
     this.on('close', function(done) {
-      console.log('should close');
       done();
     });
 
