@@ -101,11 +101,19 @@ var initNodeRed = function(instance) {
 };
 
 app.redAdmin = function(req, res, next) {
-  RED.httpAdmin(req, res, next);
+  if (typeof RED != "undefined" && RED != null) {
+    RED.httpAdmin(req, res, next);
+  } else {
+    res.send({success: true});
+  }
 };
 
 app.redNode = function(req, res, next) {
-  RED.httpNode(req, res, next);
+  if (typeof RED != "undefined" && RED != null) {
+    RED.httpNode(req, res, next);
+  } else {
+    res.send({success: true});
+  }
 };
 
 app.use(RedHttpAdminRoot, app.redAdmin);
@@ -158,7 +166,7 @@ var server = http.createServer(app);
 
 program._name = 'proximiio';
 program
-  .version('0.0.19');
+  .version('0.0.20');
 
 program
   .command('start')
