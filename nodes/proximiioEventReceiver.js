@@ -8,7 +8,7 @@ module.exports = function(RED) {
     var fbRef = RED.settings.proximiio.organization.eventBusRef + '/proximity';
     this.status({fill:"red",shape:"ring",text:"disconnected"});
 
-    this.ref = new Firebase(fbRef).limitToLast(1);
+    this.ref = new Firebase(fbRef);
 
     var sanitize = function(event) {
       event._proximi_id = event.id;
