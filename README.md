@@ -20,3 +20,5 @@ You can override these values by setting environment variables PROXIMIIO_HOME an
 ```
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/proximiio/proximiio-web-portal)
+
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/proximiio/proximiio-web-portal)
