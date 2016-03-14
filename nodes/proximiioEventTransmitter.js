@@ -10,13 +10,12 @@ module.exports = function(RED) {
     this.sentCount = 0;
     this.totalCount = 0;
 
-    this.inputRef = new Firebase(RED.settings.proximiio.organization.eventBusRef + '/proximity/');
     this.outputRef = new Firebase(RED.settings.proximiio.organization.eventBusRef + '/output/');
 
     this.onInput = function(data) {
       var inputEventId = data._proximi_id;
       var visitorId = data._proximi_visitor_id;
-      if (typeof inputEventId != 'undefined') {
+      if (typeof inputEventId != 'undefined' && typeof visitorId != 'undefined') {
         var update = {};
         update[inputEventId] = data;
         node.totalCount++;
@@ -28,7 +27,6 @@ module.exports = function(RED) {
           } else {
             node.sentCount++;
             node.status({fill:"yellow",shape:"ring",text:"waiting (" + node.sentCount + "/" + node.totalCount  + ")"});
-            node.inputRef.child(inputEventId).update({processed: true});
           }
         });
       }

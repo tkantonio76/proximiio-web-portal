@@ -7,6 +7,7 @@ var fs = require('fs');
 var mkdirp = fs.mkdirs;
 var promiseDir = nodeFn.lift(mkdirp);
 var _ = require('lodash');
+var uuid = require('uuid');
 
 var settings = {};
 var API_ROOT = 'https://api.proximi.fi/core/';
@@ -57,7 +58,7 @@ var setData = function(url, data) {
     if (Array.isArray(data)) {
         var items = [];
         var promises = [];
-
+        var bundleId = uuid.v4();
         _.each(data, function(item) {
             var itemUrl = url;
             var method = 'POST';
@@ -67,10 +68,14 @@ var setData = function(url, data) {
                 method = 'PUT';
             }
 
-            var bundle = {data: item, id: item.id};
+            var bundle = {data: item, id: item.id, bundle_id: bundleId};
+            console.log('should send bundle', bundle, ' to url', itemUrl);
             promises.push(promiseRequest(itemUrl, method, bundle));
         });
-        return when.all(promises);
+        return when.all(promises)
+            .catch(function(error) {
+                console.log('ERROR!', error.message, error.body);
+            })
     } else {
         var itemUrl = url;
         var method = 'POST';

@@ -6,13 +6,53 @@
     outputs:2,              // set the number of outputs - 0 to n
     icon: 'proximiio.png',  // saved in  icons/myicon.png
     paletteLabel: 'Proximi.io Event Receiver',
-    label: "Proximi.io Event Receiver"});
+    label: "Proximi.io Event Receiver",
+    defaults: {
+      delete_event: { value: true }
+    }});
 </script>
 
 <script type="text/x-red" data-template-name="proximiio-event-receiver">
-    <span>Node is configured by system</span>
+  <div class="form-row">
+    <label for="node-input-delete_event"><i class="fa fa-tag"></i> Delete Event</label>
+    <input type="checkbox" id="node-input-delete_event"/>
+  </div>
 </script>
 
 <script type="text/x-red" data-help-name="proximiio-event-receiver">
-    <p>EventReceiver</p>
+    <h2>Proximi.io EventTransmitter</h2>
+    <p>Receives Proximi.io Location Events</p>
+    <p>Deletes the input event by default, you can change this behaviour in node settings</p>
+    <h3>Example Event</h3>
+    <pre>
+{
+  "createdAt": "2016-03-13T14:15:27.336Z" ,
+  "data": {
+    "department": "Cafeteria" ,
+    "department_id": "06062d66-f58f-44ea-b8de-73324c83b600" ,
+    "floor": "Ground floor" ,
+    "floor_id": "7452b334-25c5-4074-8b6d-f77f7ee37875" ,
+    "geofence": "Cafeteria geofence" ,
+    "geofence_id": "f8679ff3-3769-490f-8c67-d25d3379b295" ,
+    "location": {
+        "accuracy": 19 ,
+        "lat": 60.620849460629685 ,
+        "lng": 24.82311507312237
+    } ,
+    "place": "People Flow Center" ,
+    "place_id": "c07fc35a-3bfd-489d-a1b3-44d06fb95e86" ,
+    "tags": [
+        "Kone cafeteria" ,
+        "Kone"
+    ] ,
+    "type": "indooratlas" ,
+    "visitor": { ... } ,
+    "visitor_id": "18e900ef-654b-4426-986a-2e094d4cd013"
+  } ,
+  "event": "enter" ,
+  "id": "000ff822-5908-4803-91b3-f45c0e6e720a" ,
+  "organization_id": "170c230d-c72c-4b29-9d67-746a76e57642" ,
+  "updatedAt": "2016-03-13T14:15:27.336Z"
+}
+    </pre>
 </script>

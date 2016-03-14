@@ -15,5 +15,17 @@
 </script>
 
 <script type="text/x-red" data-help-name="proximiio-event-transmitter">
-    <p>EventTransmitter</p>
+    <h2>Proximi.io EventTransmitter</h2>
+    <p>Sends payload to visitor's device</p>
+    <p>requires <strong>_proximi_id</strong> and <strong>_proximi_visitor_id</strong> to be present in msg object,
+    those are present in every received Event</p>
+    <h3>Example Msg</h3>
+    <pre>
+{
+  _proximi_id: msg._proximi_id,
+  _proximi_visitor_id: msg._proximi_visitor_id,
+  type: 'Hello',
+  name: 'Jones'
+}
+    </pre>
 </script>
