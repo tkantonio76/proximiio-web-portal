@@ -70,10 +70,10 @@ var RedHttpAdminRoot = "/red";
 var RedHttpNodeRoot = "/api";
 
 var initNodeRed = function(instance) {
-  
+
   // Prevent node-red self signed certificate errors
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-  
+
   // Create the settings object - see default settings.js file for other options
   var settings = {
     proximiio: instance,
@@ -171,7 +171,7 @@ var server = http.createServer(app);
 
 program._name = 'proximiio';
 program
-  .version('0.0.26');
+  .version('0.0.27');
 
 program
   .command('start')
