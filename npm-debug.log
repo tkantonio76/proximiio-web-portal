@@ -1,0 +1,138 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'publish' ]
+2 info using npm@2.11.3
+3 info using node@v0.12.7
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec { raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: 'C:\\Users\\Mika\\Desktop\\proximiio-web-portal',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory C:\Users\Mika\AppData\Roaming\npm-cache\proximiio\0.0.37\package.tgz not in flight; packing
+9 verbose tar pack [ 'C:\\Users\\Mika\\AppData\\Roaming\\npm-cache\\proximiio\\0.0.37\\package.tgz',
+9 verbose tar pack   'C:\\Users\\Mika\\Desktop\\proximiio-web-portal' ]
+10 verbose tarball C:\Users\Mika\AppData\Roaming\npm-cache\proximiio\0.0.37\package.tgz
+11 verbose folder C:\Users\Mika\Desktop\proximiio-web-portal
+12 info prepublish proximiio@0.0.37
+13 verbose addLocalTarball adding from inside cache C:\Users\Mika\AppData\Roaming\npm-cache\proximiio\0.0.37\package.tgz
+14 silly cache afterAdd proximiio@0.0.37
+15 verbose afterAdd C:\Users\Mika\AppData\Roaming\npm-cache\proximiio\0.0.37\package\package.json not in flight; writing
+16 verbose afterAdd C:\Users\Mika\AppData\Roaming\npm-cache\proximiio\0.0.37\package\package.json written
+17 silly publish { name: 'proximiio',
+17 silly publish   version: '0.0.37',
+17 silly publish   dependencies:
+17 silly publish    { bson: '^0.4.22',
+17 silly publish      cfenv: '~1.0.0',
+17 silly publish      commander: '^2.9.0',
+17 silly publish      express: '^4.13.3',
+17 silly publish      feedparser: '~0.19.2',
+17 silly publish      firebase: '^2.3.2',
+17 silly publish      mongodb: '~1.4.x',
+17 silly publish      nano: '~5.11.0',
+17 silly publish      'node-red-custom': 'latest',
+17 silly publish      open: '0.0.5',
+17 silly publish      redis: '~0.10.1',
+17 silly publish      request: '^2.69.0',
+17 silly publish      'request-promise': '^2.0.1',
+17 silly publish      uuid: '^2.0.1',
+17 silly publish      when: '^3.7.4' },
+17 silly publish   devDependencies:
+17 silly publish    { grunt: '^0.4.1',
+17 silly publish      'grunt-autoprefixer': '^0.7.3',
+17 silly publish      'grunt-concurrent': '^0.5.0',
+17 silly publish      'grunt-contrib-clean': '^0.5.0',
+17 silly publish      'grunt-contrib-concat': '^0.4.0',
+17 silly publish      'grunt-contrib-connect': '^0.7.1',
+17 silly publish      'grunt-contrib-copy': '^0.5.0',
+17 silly publish      'grunt-contrib-cssmin': '^0.9.0',
+17 silly publish      'grunt-contrib-htmlmin': '^0.3.0',
+17 silly publish      'grunt-contrib-imagemin': '^0.8.1',
+17 silly publish      'grunt-contrib-jshint': '^0.10.0',
+17 silly publish      'grunt-contrib-sass': '^0.9.2',
+17 silly publish      'grunt-contrib-uglify': '^0.4.0',
+17 silly publish      'grunt-contrib-watch': '^0.6.1',
+17 silly publish      'grunt-filerev': '^0.2.1',
+17 silly publish      'grunt-google-cdn': '^0.4.0',
+17 silly publish      'grunt-karma': '^0.10.1',
+17 silly publish      'grunt-newer': '^0.7.0',
+17 silly publish      'grunt-ng-annotate': '^0.3.0',
+17 silly publish      'grunt-svgmin': '^0.4.0',
+17 silly publish      'grunt-usemin': '^2.1.1',
+17 silly publish      'grunt-wiredep': '^1.7.0',
+17 silly publish      'jasmine-core': '^2.2.0',
+17 silly publish      'jshint-stylish': '^0.2.0',
+17 silly publish      karma: '^0.12.31',
+17 silly publish      'karma-jasmine': '^0.3.5',
+17 silly publish      'karma-phantomjs-launcher': '^0.1.4',
+17 silly publish      'load-grunt-tasks': '^0.4.0',
+17 silly publish      'time-grunt': '^0.3.1' },
+17 silly publish   engines: { node: '>=5.4.0' },
+17 silly publish   scripts: { test: 'grunt test', start: 'node server.js start' },
+17 silly publish   repository:
+17 silly publish    { type: 'git',
+17 silly publish      url: 'git+https://github.com/proximiio/proximiio-web-portal.git' },
+17 silly publish   bin: { proximiio: './server.js' },
+17 silly publish   readme: '# Proximi.io Portal\r\n\r\nThis Web Portal is part of the Proximi.io Proximity Platform ecosystem. Web Portal is used to manage the whole proximity installation like places, floors, geofences, beacon fleets, rich action flows etc. Please note that free account registration is required. Registration can be done beforehand using the registration form at https://proximi.io/registration or when you start the Web Portal and use the registration option at the login page. You\'ll receive basic instructions on how to get started after the registration via email.\r\n\r\n![Web Portal](https://proximi.io/github_portal1.png)\r\n\r\n## Init from Github\r\n1. run "git clone https://github.com/proximiio/proximiio-web-portal.git"\r\n2. run "npm install" to install dependencies\r\n3. run "node ./index.js start" to start a portal\r\n\r\n## Init from npm\r\n1. run "sudo npm install -g proximiio"\r\n2. run "proximiio start" to start a portal\r\n\r\n## Configuration\r\nBy default Proximi.io server runs at port **8000** and stores all files into **.proximiio** directory in user\'s home.\r\nYou can override these values by setting environment variables PROXIMIIO_HOME and PORT\r\n\r\n```\r\n    export PROXIMIIO_HOME=/opt/proximiio\r\n    export PORT=8043\r\n```\r\n\r\n[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/proximiio/proximiio-web-portal)\r\n\r\n[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/proximiio/proximiio-web-portal)\r\n',
+17 silly publish   readmeFilename: 'README.md',
+17 silly publish   gitHead: '459971d41567a788736bad8f52ae69991c981f7d',
+17 silly publish   description: 'This Web Portal is part of the Proximi.io Proximity Platform ecosystem. Web Portal is used to manage the whole proximity installation like places, floors, geofences, beacon fleets, rich action flows etc. Please note that free account registration is required. Registration can be done beforehand using the registration form at https://proximi.io/registration or when you start the Web Portal and use the registration option at the login page. You\'ll receive basic instructions on how to get started after the registration via email.',
+17 silly publish   bugs: { url: 'https://github.com/proximiio/proximiio-web-portal/issues' },
+17 silly publish   homepage: 'https://github.com/proximiio/proximiio-web-portal#readme',
+17 silly publish   _id: 'proximiio@0.0.37',
+17 silly publish   _shasum: 'e96374b1ed4c237a3852c6fd8c0a1106008f5efb',
+17 silly publish   _from: '.' }
+18 verbose getPublishConfig undefined
+19 silly mapToRegistry name proximiio
+20 silly mapToRegistry using default registry
+21 silly mapToRegistry registry http://registry.npmjs.org/
+22 silly mapToRegistry uri http://registry.npmjs.org/proximiio
+23 verbose publish registryBase http://registry.npmjs.org/
+24 silly publish uploading C:\Users\Mika\AppData\Roaming\npm-cache\proximiio\0.0.37\package.tgz
+25 verbose request uri http://registry.npmjs.org/proximiio
+26 verbose request sending authorization for write operation
+27 info attempt registry request try #1 at 18:54:01
+28 verbose request using bearer token for auth
+29 verbose request id d4aec1cc7478571e
+30 http request PUT http://registry.npmjs.org/proximiio
+31 http 403 http://registry.npmjs.org/proximiio
+32 verbose headers { 'content-type': 'application/json',
+32 verbose headers   'cache-control': 'max-age=300',
+32 verbose headers   'content-length': '96',
+32 verbose headers   'accept-ranges': 'bytes',
+32 verbose headers   date: 'Mon, 04 Apr 2016 15:54:03 GMT',
+32 verbose headers   via: '1.1 varnish',
+32 verbose headers   connection: 'keep-alive',
+32 verbose headers   'x-served-by': 'cache-ams4134-AMS',
+32 verbose headers   'x-cache': 'MISS',
+32 verbose headers   'x-cache-hits': '0',
+32 verbose headers   'x-timer': 'S1459785241.908124,VS0,VE1830' }
+33 verbose request invalidating C:\Users\Mika\AppData\Roaming\npm-cache\registry.npmjs.org\proximiio on PUT
+34 error publish Failed PUT 403
+35 verbose stack Error: "You cannot publish over the previously published version 0.0.37." : proximiio
+35 verbose stack     at CachingRegistryClient.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:247:14)
+35 verbose stack     at Request._callback (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:170:14)
+35 verbose stack     at Request.self.callback (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:354:22)
+35 verbose stack     at Request.emit (events.js:110:17)
+35 verbose stack     at Request.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1207:14)
+35 verbose stack     at Request.emit (events.js:129:20)
+35 verbose stack     at IncomingMessage.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1153:12)
+35 verbose stack     at IncomingMessage.emit (events.js:129:20)
+35 verbose stack     at _stream_readable.js:908:16
+35 verbose stack     at process._tickCallback (node.js:355:11)
+36 verbose statusCode 403
+37 verbose pkgid proximiio
+38 verbose cwd C:\Users\Mika\Desktop\proximiio-web-portal
+39 error Windows_NT 6.1.7601
+40 error argv "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "publish"
+41 error node v0.12.7
+42 error npm  v2.11.3
+43 error code E403
+44 error "You cannot publish over the previously published version 0.0.37." : proximiio
+45 error If you need help, you may report this error at:
+45 error     <https://github.com/npm/npm/issues>
+46 verbose exit [ 1, true ]

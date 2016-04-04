@@ -1,8 +1,12 @@
 # Proximi.io Portal
 
-This Web Portal is part of the Proximi.io Proximity Platform ecosystem. Web Portal is used to manage the whole proximity installation like places, floors, geofences, beacon fleets, rich action flows etc. Please note that free account registration is required. Registration can be done beforehand using the registration form at http://proximi.io/registration or when you start the Web Portal and use the registration option at the login page. You'll receive basic instructions on how to get started after the registration via email.
+This Web Portal is part of the Proximi.io Proximity Platform ecosystem. Web Portal is used to manage the whole proximity installation like places, floors, geofences, beacon fleets, rich action flows etc. 
 
 ![Web Portal](https://proximi.io/github_portal1.png)
+
+## Free account registration required
+
+Please note that free account registration is required. Registration can be done beforehand using the registration form at https://proximi.io/registration or when you start the Web Portal and use the registration option at the login page. You'll receive basic instructions on how to get started after the registration via email.
 
 ## Init from Github
 1. run "git clone https://github.com/proximiio/proximiio-web-portal.git"
