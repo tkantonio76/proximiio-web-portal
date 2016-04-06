@@ -171,7 +171,7 @@ var server = http.createServer(app);
 
 program._name = 'proximiio';
 program
-  .version('0.0.38');
+  .version('0.0.39');
 
 program
   .command('start')
