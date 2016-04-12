@@ -136,14 +136,14 @@
           <div class="form-group" ng-show="input.type === 'iBeacon'">
             <label for="major" class="col-sm-3 control-label">Major <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
-              <input type="text" name="major" class="form-control" id="major" placeholder="Input Major..." ng-model="input.data.major" ng-required="input.type === 'iBeacon'">
+              <input type="number" name="major" class="form-control" id="major" placeholder="Input Major..." ng-model="input.data.major" ng-required="input.type === 'iBeacon'">
             </div>
           </div>
 
           <div class="form-group" ng-show="input.type === 'iBeacon'">
             <label for="minor" class="col-sm-3 control-label">Minor <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
-              <input type="text" name="minor" class="form-control" id="minor" placeholder="Input Minor..." ng-model="input.data.minor"  ng-required="input.type === 'iBeacon'">
+              <input type="number" name="minor" class="form-control" id="minor" placeholder="Input Minor..." ng-model="input.data.minor"  ng-required="input.type === 'iBeacon'">
             </div>
           </div>
 
