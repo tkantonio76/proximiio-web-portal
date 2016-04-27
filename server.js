@@ -46,7 +46,6 @@ if (!proximiioDirExists) {
   process.exit();
 }
 // Configuration
-
 //app.set('views', __dirname + '/app');
 //app.set('view engine', 'jade');
 var bodyParser = require('body-parser');
@@ -171,7 +170,7 @@ var server = http.createServer(app);
 
 program._name = 'proximiio';
 program
-  .version('0.0.48');
+  .version('0.0.49');
 
 program
   .command('start')
