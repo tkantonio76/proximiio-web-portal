@@ -36,6 +36,9 @@
         <label for="name" class="col-sm-3 control-label">Name <span class="text-danger" style="font-size: 15px;">*</span></label>
         <div class="col-sm-9">
           <input type="text" name="name" class="form-control" id="name" placeholder="Place Name..." ng-model="place.name" required>
+          <div ng-messages="addPlaceForm.name.$error" ng-show="!addPlaceForm.name.$pristine" role="alert" class="help-block">
+            <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+          </div>
         </div>
       </div>
 
@@ -43,6 +46,9 @@
         <label for="address" class="col-sm-3 control-label">Address <span class="text-danger" style="font-size: 15px;">*</span></label>
         <div class="col-sm-9">
           <input type="text" name="address" class="form-control" id="address" placeholder="Place Address..." ng-model="place.address" ng-blur="geoCodeAddress()" required>
+          <div ng-messages="addPlaceForm.address.$error" ng-show="!addPlaceForm.address.$pristine" role="alert" class="help-block">
+            <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+          </div>
         </div>
       </div>
 
@@ -50,6 +56,9 @@
         <label for="lat" class="col-sm-3 control-label">Latitude <span class="text-danger" style="font-size: 15px;">*</span></label>
         <div class="col-sm-9">
           <input type="number" name="lat" class="form-control" id="lat" placeholder="Place Latitude..." ng-model="place.location.lat" required>
+          <div ng-messages="addPlaceForm.lat.$error" ng-show="!addPlaceForm.lat.$pristine" role="alert" class="help-block">
+            <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+          </div>
         </div>
       </div>
 
@@ -57,9 +66,11 @@
         <label for="lng" class="col-sm-3 control-label">Longitude <span class="text-danger" style="font-size: 15px;">*</span></label>
         <div class="col-sm-9">
           <input type="number" name="lng" class="form-control" id="lng" placeholder="Place Longitude..." ng-model="place.location.lng" required>
+          <div ng-messages="addPlaceForm.lng.$error" ng-show="!addPlaceForm.lng.$pristine" role="alert" class="help-block">
+            <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+          </div>
         </div>
       </div>
-
 
       <div class="form-group">
         <label class="col-sm-3 control-label">Tags</label>
@@ -76,17 +87,13 @@
         </div>
       </div>
 
-
     </form>
-
-
 
   </div>
 
   <div class="modal-footer">
 
-
-    <button class="btn btn-success b-0" ng-click="ok()" ng-disabled="addPlaceForm.$invalid">Submit</button>
+    <button class="btn btn-success b-0" ng-click="ok()">Submit</button>
     <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
 
   </div></script> <script type="text/ng-template" id="placeViewModal.html"><div class="modal-header">

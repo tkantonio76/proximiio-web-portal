@@ -92,6 +92,9 @@
             <label for="name" class="col-sm-3 control-label">Name <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
               <input type="text" name="name" class="form-control" id="name" placeholder="Input Name..." ng-model="input.name" required>
+              <div ng-messages="addInputForm.name.$error" ng-show="!addInputForm.name.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
             </div>
           </div>
 
@@ -107,6 +110,8 @@
             <div class="col-sm-9">
 
               <select chosen="{width: '100%'}"
+                      class="form-control"
+                      name="department"
                       data-placeholder="Select a Department"
                       no-results-text="'Could not find any departments :('"
                       ng-model="input.department_id"
@@ -115,6 +120,9 @@
                       required>
                 <option></option>
               </select>
+              <div ng-messages="addInputForm.department.$error" ng-show="!addInputForm.department.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
 
             </div>
           </div>
@@ -123,6 +131,9 @@
             <label for="lat" class="col-sm-3 control-label">Latitude <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
               <input type="number" name="lat" class="form-control" id="lat" placeholder="Input Latitude..." ng-model="input.data.marker.lat" required>
+              <div ng-messages="addInputForm.lat.$error" ng-show="!addInputForm.lat.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
             </div>
           </div>
 
@@ -130,6 +141,9 @@
             <label for="lng" class="col-sm-3 control-label">Longitude <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
               <input type="number" name="lng" class="form-control" id="lng" placeholder="Input Longitude..." ng-model="input.data.marker.lng" required>
+              <div ng-messages="addInputForm.lng.$error" ng-show="!addInputForm.lng.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
             </div>
           </div>
 
@@ -137,6 +151,9 @@
             <label for="major" class="col-sm-3 control-label">Major <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
               <input type="number" name="major" class="form-control" id="major" placeholder="Input Major..." ng-model="input.data.major" ng-required="input.type === 'iBeacon'">
+              <div ng-messages="addInputForm.major.$error" ng-show="!addInputForm.major.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
             </div>
           </div>
 
@@ -144,6 +161,9 @@
             <label for="minor" class="col-sm-3 control-label">Minor <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
               <input type="number" name="minor" class="form-control" id="minor" placeholder="Input Minor..." ng-model="input.data.minor"  ng-required="input.type === 'iBeacon'">
+              <div ng-messages="addInputForm.minor.$error" ng-show="!addInputForm.minor.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
             </div>
           </div>
 
@@ -151,6 +171,9 @@
             <label for="uuid" class="col-sm-3 control-label">UUID <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
               <input type="text" name="uuid" class="form-control" id="uuid" placeholder="Input UUID..." ng-model="input.data.uuid"  ng-required="input.type === 'iBeacon'" capitalize>
+              <div ng-messages="addInputForm.uuid.$error" ng-show="!addInputForm.uuid.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
             </div>
           </div>
 
@@ -158,6 +181,9 @@
             <label for="namespaceid" class="col-sm-3 control-label">Namespace ID <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
               <input type="text" name="namespaceid" class="form-control" id="namespaceid" placeholder="Input Namescpace ID..." ng-model="input.data.namespaceid" ng-required="input.type === 'Eddystone Beacon'">
+              <div ng-messages="addInputForm.namespaceid.$error" ng-show="!addInputForm.namespaceid.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
             </div>
           </div>
 
@@ -165,6 +191,9 @@
             <label for="instanceid" class="col-sm-3 control-label">Instance ID <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
               <input type="text" name="instanceid" class="form-control" id="instanceid" placeholder="Input Instance ID..." ng-model="input.data.instanceid"  ng-required="input.type === 'Eddystone Beacon'">
+              <div ng-messages="addInputForm.instanceid.$error" ng-show="!addInputForm.instanceid.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
             </div>
           </div>
 
@@ -172,6 +201,9 @@
             <label for="radius" class="col-sm-3 control-label">Radius <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
               <input type="number" name="radius" class="form-control" id="radius" placeholder="Input Radius..." ng-model="input.data.radius"  ng-required="input.type === 'IndoorAtlas Geofences' || input.type === 'GPS Geofence'">
+              <div ng-messages="addInputForm.radius.$error" ng-show="!addInputForm.radius.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
             </div>
           </div>
 
@@ -193,6 +225,8 @@
             <div class="col-sm-9">
 
               <select chosen="{width: '100%'}"
+                      class="form-control"
+                      name="floorchange"
                       data-placeholder="Select a Floor"
                       no-results-text="'Could not find any floors :('"
                       ng-model="input.floor_id"
@@ -201,6 +235,9 @@
                       >
                 <option></option>
               </select>
+              <div ng-messages="addInputForm.floorchange.$error" ng-show="!addInputForm.floorchange.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
 
             </div>
           </div>
@@ -223,6 +260,8 @@
             <div class="col-sm-9">
 
               <select chosen="{width: '100%'}"
+                      class="form-control"
+                      name="venuechange"
                       data-placeholder="Select a Place"
                       no-results-text="'Could not find any places :('"
                       ng-model="input.place_id"
@@ -231,6 +270,9 @@
                       >
                 <option></option>
               </select>
+              <div ng-messages="addInputForm.venuechange.$error" ng-show="!addInputForm.venuechange.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
 
             </div>
           </div>

@@ -36,6 +36,9 @@
         <label for="name" class="col-sm-3 control-label">Name <span class="text-danger" style="font-size: 15px;">*</span></label>
         <div class="col-sm-9">
           <input type="text" name="name" class="form-control" id="name" placeholder="Application Name..." ng-model="application.name" required>
+          <div ng-messages="addForm.name.$error" ng-show="!addForm.name.$pristine" role="alert" class="help-block">
+            <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+          </div>
         </div>
       </div>
 
@@ -73,8 +76,10 @@
               <hr/>
 
               <div class="form-group form-group-vertical">
-                <label class="control-label">Native Accuracy</label>
+                <label class="control-label">Native Accuracy <span class="text-danger" style="font-size: 15px;">*</span></label>
                 <select chosen="{width: '100%'}"
+                        class="form-control"
+                        name="native_accuracy"
                         data-placeholder="Select an accuracy"
                         no-results-text="'Could not find any accuracies :('"
                         ng-model="application.settings.nativeAccuracy"
@@ -83,6 +88,9 @@
                 >
                   <option></option>
                 </select>
+                <div ng-messages="addForm.native_accuracy.$error" ng-show="!addForm.native_accuracy.$pristine" role="alert" class="help-block">
+                  <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+                </div>
                 <p class="help-block text-danger" ng-if="application.settings.nativeAccuracy === 3">
                   <strong>Warning</strong> high battery consumption with gps.
                 </p>
@@ -137,13 +145,19 @@
               <hr/>
 
               <div class="form-group form-group-vertical">
-                <label class="control-label">API Key</label>
-                <input type="text" class="form-control" ng-model="application.settings.indooratlasapikey" ng-required="application.settings.indooratlas">
+                <label class="control-label">API Key <span class="text-danger" style="font-size: 15px;">*</span></label>
+                <input type="text" name="api_key" class="form-control" ng-model="application.settings.indooratlasapikey" ng-required="application.settings.indooratlas">
+                <div ng-messages="addForm.api_key.$error" ng-show="!addForm.api_key.$pristine" role="alert" class="help-block">
+                  <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+                </div>
               </div>
 
               <div class="form-group form-group-vertical">
-                <label class="control-label">API Key Secret</label>
-                <input type="text" class="form-control" ng-model="application.settings.indooratlasapikeysecret" ng-required="application.settings.indooratlas">
+                <label class="control-label">API Key Secret <span class="text-danger" style="font-size: 15px;">*</span></label>
+                <input type="text" name="api_secret_key" class="form-control" ng-model="application.settings.indooratlasapikeysecret" ng-required="application.settings.indooratlas">
+                <div ng-messages="addForm.api_secret_key.$error" ng-show="!addForm.api_secret_key.$pristine" role="alert" class="help-block">
+                  <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+                </div>
               </div>
 
               <!--<div class="form-group form-group-vertical">
@@ -173,8 +187,11 @@
               <hr/>
 
               <div class="form-group form-group-vertical">
-                <label class="control-label">NDD</label>
-                <input type="text" class="form-control" ng-model="application.settings.steerpathndd" ng-required="application.settings.steerpath">
+                <label class="control-label">NDD <span class="text-danger" style="font-size: 15px;">*</span></label>
+                <input type="text" name="steerpathndd" class="form-control" ng-model="application.settings.steerpathndd" ng-required="application.settings.steerpath">
+                <div ng-messages="addForm.steerpathndd.$error" ng-show="!addForm.steerpathndd.$pristine" role="alert" class="help-block">
+                  <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+                </div>
               </div>
 
             </div>
@@ -192,7 +209,7 @@
 
   <div class="modal-footer">
 
-    <button class="btn btn-success b-0" ng-click="ok()" ng-disabled="addForm.$invalid">Submit</button>
+    <button class="btn btn-success b-0" ng-click="ok()">Submit</button>
     <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
 
   </div></script> <script type="text/ng-template" id="applicationViewModal.html"><div class="modal-header">

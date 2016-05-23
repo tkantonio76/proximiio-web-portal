@@ -45,6 +45,9 @@
             <label for="name" class="col-sm-3 control-label">Name <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
               <input type="text" name="name" class="form-control" id="name" placeholder="Geofence Name..." ng-model="geofence.name" required>
+              <div ng-messages="addForm.name.$error" ng-show="!addForm.name.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
             </div>
           </div>
 
@@ -80,6 +83,9 @@
             <label for="address" class="col-sm-3 control-label">Address <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
               <input type="text" name="address" class="form-control" id="address" placeholder="Geofence Address..." ng-model="geofence.address" ng-blur="geoCodeAddress()" required>
+              <div ng-messages="addForm.address.$error" ng-show="!addForm.address.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
             </div>
           </div>
 
@@ -87,6 +93,9 @@
             <label for="lat" class="col-sm-3 control-label">Latitude <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
               <input type="number" name="lat" class="form-control" id="lat" placeholder="Geofence Latitude..." ng-model="geofence.area.lat" required>
+              <div ng-messages="addForm.lat.$error" ng-show="!addForm.lat.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
             </div>
           </div>
 
@@ -94,6 +103,9 @@
             <label for="lng" class="col-sm-3 control-label">Longitude <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
               <input type="number" name="lng" class="form-control" id="lng" placeholder="Geofence Longitude..." ng-model="geofence.area.lng" required>
+              <div ng-messages="addForm.lng.$error" ng-show="!addForm.lng.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
             </div>
           </div>
 
@@ -101,6 +113,9 @@
             <label for="radius" class="col-sm-3 control-label">Radius <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
               <input type="number" name="radius" class="form-control" id="radius" placeholder="Geofence Radius..." ng-model="geofence.radius" required>
+              <div ng-messages="addForm.radius.$error" ng-show="!addForm.radius.$pristine" role="alert" class="help-block">
+                <div ng-messages-include="views/pages/messages_tmpl.html"></div>
+              </div>
             </div>
           </div>
 
@@ -137,9 +152,9 @@
 
     <!-- ###### 1 STEP ######-->
     <button class="btn btn-default pull-left" ng-click="active = 0" ng-show="active === 1"><i class="fa fa-angle-left"></i> Previous</button>
-    <button class="btn btn-default" ng-disabled="addForm.$invalid" ng-click="active = 1" ng-class="{'pull-left': active === 0}" ng-hide="active !== 0">Next <i class="fa fa-angle-right ml-5"></i></button><!-- /1 STEP -->
+    <button class="btn btn-default" ng-click="active = 1" ng-class="{'pull-left': active === 0}" ng-hide="active !== 0">Next <i class="fa fa-angle-right ml-5"></i></button><!-- /1 STEP -->
 
-    <button class="btn btn-success b-0" ng-click="ok()" ng-disabled="addForm.$invalid" ng-show="active === 1">Submit</button>
+    <button class="btn btn-success b-0" ng-click="ok()" ng-show="active === 1">Submit</button>
     <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
 
   </div></script> <script type="text/ng-template" id="geofenceViewModal.html"><div class="modal-header">
