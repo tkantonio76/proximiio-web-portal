@@ -11,7 +11,7 @@ module.exports = function(RED) {
 
     this.ref = new Firebase(fbRef);
 
-    this.delete_event = config.delete_event ? config.delete_event: false;
+    this.delete_event = typeof config.delete_event != "undefined" ? config.delete_event : false;
 
     var sanitize = function(event) {
       event._proximi_id = event.id;

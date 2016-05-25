@@ -304,9 +304,9 @@
 
     <!-- ###### 1 STEP ######-->
     <button class="btn btn-default pull-left" ng-click="active = 0" ng-show="active === 1"><i class="fa fa-angle-left"></i> Previous</button>
-    <button class="btn btn-default" ng-disabled="addInputForm.$invalid" ng-click="active = 1" ng-class="{'pull-left': active === 0}" ng-hide="active !== 0">Next <i class="fa fa-angle-right ml-5"></i></button><!-- /1 STEP -->
+    <button class="btn btn-default" ng-click="makeActive(1)" ng-class="{'pull-left': active === 0}" ng-hide="active !== 0">Next <i class="fa fa-angle-right ml-5"></i></button><!-- /1 STEP -->
 
-    <button class="btn btn-success b-0" ng-click="ok()" ng-disabled="addInputForm.$invalid" ng-show="active === 1">Submit</button>
+    <button class="btn btn-success b-0" ng-click="ok()" ng-show="active === 1">Submit</button>
     <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
 
   </div></script>
