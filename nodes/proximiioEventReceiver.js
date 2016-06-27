@@ -6,10 +6,10 @@ module.exports = function(RED) {
 
     var TAG = "[ProximiioEventReceiver]";
     var node = this;
-    var fbRef = RED.settings.proximiio.organization.eventBusRef + '/proximity';
     this.status({fill:"red",shape:"ring",text:"disconnected"});
-
-    this.ref = new Firebase(fbRef);
+    console.log(RED.settings.proximiio);
+    this.ref = new Firebase(RED.settings.proximiio.organization.proximiioBusRef + '/proximity/');
+    this.ref.authWithCustomToken(RED.settings.proximiio.organization.proximiioBusToken);
 
     this.delete_event = typeof config.delete_event != "undefined" ? config.delete_event : false;
 
@@ -29,12 +29,9 @@ module.exports = function(RED) {
     var onChildAdded = function(eventHandle) {
       node.status({fill:"green",shape:"dot",text:"connected"});
       var event = sanitize(eventHandle.val());
-      console.log(TAG,'received event', eventHandle.key());
 
       var sendData = function(error) {
-        console.log(TAG, 'removed event', eventHandle.key());
         node.send([event, {_event: event}]);
-        console.log(TAG, 'sent event to processing chain', eventHandle.key());
       };
 
       if (node.delete_event) {

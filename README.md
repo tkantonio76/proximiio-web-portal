@@ -11,7 +11,7 @@ Please note that free account registration is required. Registration can be done
 ## Init from Github
 1. run "git clone https://github.com/proximiio/proximiio-web-portal.git"
 2. run "npm install" to install dependencies
-3. run "node ./index.js start" to start a portal
+3. run "node ./server.js start" to start a portal
 
 ## Init from npm
 1. run "sudo npm install -g proximiio"

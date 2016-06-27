@@ -10,7 +10,8 @@ module.exports = function(RED) {
     this.sentCount = 0;
     this.totalCount = 0;
 
-    this.outputRef = new Firebase(RED.settings.proximiio.organization.eventBusRef + '/output/');
+    this.outputRef = new Firebase(RED.settings.proximiio.organization.proximiioBusRef + '/output/');
+    this.outputRef.authWithCustomToken(RED.settings.proximiio.organization.proximiioBusToken);
 
     this.onInput = function(data) {
       var inputEventId = data._proximi_id;
@@ -21,7 +22,6 @@ module.exports = function(RED) {
         node.totalCount++;
         node.status({fill:"red",shape:"ring",text:"transmitting" });
         node.outputRef.child(visitorId).update(update, function(error) {
-          console.log('update error', error);
           if (error) {
             console.log('error', error);
           } else {
@@ -35,7 +35,7 @@ module.exports = function(RED) {
     this.on('input', this.onInput);
 
     this.on('close', function(done) {
-      done() 
+      done()
     });
 
     return this;
