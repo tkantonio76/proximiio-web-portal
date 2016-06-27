@@ -175,7 +175,7 @@ app.post('/instance', postInstance);
 var server = http.createServer(app);
 
 program._name = 'proximiio';
-program.version('0.0.57');
+program.version('0.0.58');
 
 program.command('start').description('initialize proximi.io portal').action(function() {
   console.log('initializing portal...');
