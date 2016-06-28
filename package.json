@@ -1,6 +1,6 @@
 {
   "name": "proximiio",
-  "version": "0.0.58",
+  "version": "0.0.59",
   "dependencies": {
     "bson": "^0.4.22",
     "cfenv": "~1.0.0",
