@@ -112,7 +112,7 @@
           <div class="form-group">
             <label for="radius" class="col-sm-3 control-label">Radius <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
-              <input type="number" name="radius" class="form-control" id="radius" placeholder="Geofence Radius..." ng-model="geofence.radius" required>
+              <input type="number" name="radius" class="form-control" id="radius" placeholder="Geofence Radius..." ng-model="geofence.radius" min="0" required>
               <div ng-messages="addForm.radius.$error" ng-show="!addForm.radius.$pristine" role="alert" class="help-block">
                 <div ng-messages-include="views/pages/messages_tmpl.html"></div>
               </div>
