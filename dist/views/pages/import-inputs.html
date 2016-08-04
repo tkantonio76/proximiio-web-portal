@@ -109,18 +109,24 @@
             <label class="col-sm-3 control-label">Department <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
 
-              <select chosen="{width: '100%'}"
-                      class="form-control"
-                      name="department"
-                      data-placeholder="Select a Department"
-                      no-results-text="'Could not find any departments :('"
-                      ng-model="input.department_id"
-                      ng-change="departmentSelect()"
-                      ng-options="value.id as value.name for (key,value) in departments"
-                      required>
-                <option></option>
-              </select>
-              <div ng-messages="addInputForm.department.$error" ng-show="!addInputForm.department.$pristine" role="alert" class="help-block">
+              <input type="text"
+                     name="department"
+                     id="departmentSelect"
+                     ng-model="selectedDepartment"
+                     typeahead-on-select="departmentSelect($item)"
+                     placeholder="Select a Department"
+                     uib-typeahead="department as department.name for department in getDepartment($viewValue)"
+                     typeahead-loading="loadingDepartments"
+                     typeahead-no-results="noDepartments"
+                     class="form-control"
+                     typeahead-show-hint="true"
+                     typeahead-min-length="0"
+                     typeahead-editable="false"
+                     style="margin-bottom: 5px"
+                     required>
+              <span ng-show="loadingDepartments"><i class="fa fa-circle-o-notch fa-spin text-primary"></i></span>
+              <div ng-show="noDepartments"><i class="fa fa-times"></i> Could not find any departments :(</div>
+              <div ng-messages="addInputForm.department.$error" ng-show="!addInputForm.department.$pristine" role="alert" class="help-block text-red">
                 <div ng-messages-include="views/pages/messages_tmpl.html"></div>
               </div>
 
@@ -224,18 +230,24 @@
             <label class="col-sm-3 control-label">Floor <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
 
-              <select chosen="{width: '100%'}"
-                      class="form-control"
-                      name="floorchange"
-                      data-placeholder="Select a Floor"
-                      no-results-text="'Could not find any floors :('"
-                      ng-model="input.floor_id"
-                      ng-options="value.id as (value.name + ' (' + value.place_id + ')') for (key,value) in floors"
-                      ng-required="input.triggerFloorChange"
-                      >
-                <option></option>
-              </select>
-              <div ng-messages="addInputForm.floorchange.$error" ng-show="!addInputForm.floorchange.$pristine" role="alert" class="help-block">
+              <input type="text"
+                     name="floor"
+                     id="floorchange"
+                     ng-model="selectedFloor"
+                     typeahead-on-select="floorSelect($item)"
+                     placeholder="Select a Floor"
+                     uib-typeahead="floor as (floor.name + ' (' + floor.place_id + ')') for floor in getFloors($viewValue)"
+                     typeahead-loading="loadingFloor"
+                     typeahead-no-results="noFloors"
+                     class="form-control"
+                     typeahead-show-hint="true"
+                     typeahead-min-length="0"
+                     typeahead-editable="false"
+                     style="margin-bottom: 5px"
+                     ng-required="input.triggerFloorChange">
+              <span ng-show="loadingFloors"><i class="fa fa-circle-o-notch fa-spin text-primary"></i></span>
+              <div ng-show="noFloors"><i class="fa fa-times"></i> Could not find any floors :(</div>
+              <div ng-messages="addInputForm.floorchange.$error" ng-show="!addInputForm.floorchange.$pristine" role="alert" class="help-block text-red">
                 <div ng-messages-include="views/pages/messages_tmpl.html"></div>
               </div>
 
@@ -259,18 +271,24 @@
             <label class="col-sm-3 control-label">Place <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
 
-              <select chosen="{width: '100%'}"
-                      class="form-control"
-                      name="venuechange"
-                      data-placeholder="Select a Place"
-                      no-results-text="'Could not find any places :('"
-                      ng-model="input.place_id"
-                      ng-options="value.id as value.name for (key,value) in places"
-                      ng-required="input.triggerVenueChange"
-                      >
-                <option></option>
-              </select>
-              <div ng-messages="addInputForm.venuechange.$error" ng-show="!addInputForm.venuechange.$pristine" role="alert" class="help-block">
+              <input type="text"
+                     name="venuechange"
+                     id="placeSelect"
+                     ng-model="selectedPlace"
+                     typeahead-on-select="placeSelect($item)"
+                     placeholder="Select a Place"
+                     uib-typeahead="place as place.name for place in getPlaces($viewValue)"
+                     typeahead-loading="loadingPlaces"
+                     typeahead-no-results="noPlaces"
+                     class="form-control"
+                     typeahead-show-hint="true"
+                     typeahead-min-length="0"
+                     typeahead-editable="false"
+                     style="margin-bottom: 5px"
+                     ng-required="input.triggerVenueChange">
+              <span ng-show="loadingPlaces"><i class="fa fa-circle-o-notch fa-spin text-primary"></i></span>
+              <div ng-show="noPlaces"><i class="fa fa-times"></i> Could not find any places :(</div>
+              <div ng-messages="addInputForm.venuechange.$error" ng-show="!addInputForm.venuechange.$pristine" role="alert" class="help-block text-red">
                 <div ng-messages-include="views/pages/messages_tmpl.html"></div>
               </div>
 

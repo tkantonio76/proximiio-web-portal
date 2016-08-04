@@ -17,22 +17,30 @@
             <span class="badge badge-default pull-right wizard-step">1</span>
           </uib-tab-heading>
 
+
           <div class="form-group">
             <label class="col-sm-2 control-label">Place <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-10">
 
-              <select chosen="{width: '100%'}"
-                      class="form-control"
-                      name="place"
-                      data-placeholder="Select a Place"
-                      no-results-text="'Could not find any places :('"
-                      ng-model="floor.place_id"
-                      ng-change="placeSelect()"
-                      ng-options="value.id as value.name for (key,value) in places"
-                      required>
-                <option></option>
-              </select>
-              <div ng-messages="addForm.place.$error" ng-show="!addForm.place.$pristine" role="alert" class="help-block">
+              <input type="text"
+                     name="place"
+                     id="placeSelect"
+                     ng-model="selectedPlace"
+                     ng-change="placeChange()"
+                     typeahead-on-select="placeSelect($item)"
+                     placeholder="Select a Place"
+                     uib-typeahead="place as place.name for place in getPlaces($viewValue)"
+                     typeahead-loading="loadingPlaces"
+                     typeahead-no-results="noPlaces"
+                     class="form-control"
+                     typeahead-show-hint="true"
+                     typeahead-min-length="0"
+                     typeahead-editable="false"
+                     style="margin-bottom: 5px"
+                     required>
+              <span ng-show="loadingPlaces"><i class="fa fa-circle-o-notch fa-spin text-primary"></i></span>
+              <div ng-show="noPlaces"><i class="fa fa-times"></i> Could not find any places :(</div>
+              <div ng-messages="addForm.place.$error" ng-show="!addForm.place.$pristine" role="alert" class="help-block text-red">
                 <div ng-messages-include="views/pages/messages_tmpl.html"></div>
               </div>
 
