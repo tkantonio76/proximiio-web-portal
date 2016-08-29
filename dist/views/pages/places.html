@@ -18,10 +18,42 @@
         </div>
       </div>
 
+      <!--<div class="form-group">
+        <label for="street" class="col-sm-3 control-label">Street</label>
+        <div class="col-sm-9">
+          <input type="text" name="street" class="form-control" id="street" placeholder="E.g Victoria Blvrd 50" ng-model="place.street" ng-blur="geoCodeAddress()">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="city" class="col-sm-3 control-label">City</label>
+        <div class="col-sm-6">
+          <input type="text" name="city" class="form-control" id="city" placeholder="E.g San Francisco" ng-model="place.city" ng-blur="geoCodeAddress()">
+        </div>
+        <label for="zip" class="col-sm-1 control-label">Zip</label>
+        <div class="col-sm-2">
+          <input type="text" name="zip" class="form-control" id="zip" placeholder="E.g 94104" ng-model="place.zip" ng-blur="geoCodeAddress()">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="country" class="col-sm-3 control-label">Country</label>
+        <div class="col-sm-9">
+          <input type="text" name="country" class="form-control" id="country" placeholder="E.g USA" ng-model="place.country" ng-blur="geoCodeAddress()">
+        </div>
+      </div>-->
+
       <div class="form-group">
         <label for="address" class="col-sm-3 control-label">Address</label>
         <div class="col-sm-9">
-          <input type="text" name="address" class="form-control" id="address" placeholder="Place Address..." ng-model="place.address" ng-blur="geoCodeAddress()">
+          <input type="text" name="address" class="form-control" id="address" placeholder="E.g Victoria Blvrd 50, San Francisco" ng-model="place.address" ng-blur="geoCodeAddress()">
+        </div>
+      </div>
+
+      <div class="form-group" ng-if="geocodeResult">
+        <label class="col-sm-3 control-label">Geocoded as</label>
+        <div class="col-sm-9">
+          <pre class="m-0 text-sm">{{geocodeResult}}</pre>
         </div>
       </div>
 
@@ -48,8 +80,7 @@
       <div class="form-group">
         <label class="col-sm-3 control-label">Tags</label>
         <div class="col-sm-9">
-          <tags options="{addable: true}" model="place.tags" src="t.name for t in tags"></tags>
-          <p class="help-block">Separate tags with "enter"</p>
+          <tags-input ng-model="place.tags"></tags-input>
         </div>
       </div>
 
