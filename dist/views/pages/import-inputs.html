@@ -101,7 +101,11 @@
           <div class="form-group">
             <label class="col-sm-3 control-label">Type <span class="text-danger" style="font-size: 15px;">*</span></label>
             <div class="col-sm-9">
-              <input type="text" name="type" class="form-control" id="type" ng-model="input.type" ng-disabled="true">
+              <!--<input type="text" name="type" class="form-control" id="type" ng-model="input.type" ng-disabled="true">-->
+              <select name="type" class="form-control" id="type" ng-model="input.type">
+                <option value="iBeacon">iBeacon</option>
+                <option value="Eddystone Beacon">Eddystone Beacon</option>
+              </select>
             </div>
           </div>
 

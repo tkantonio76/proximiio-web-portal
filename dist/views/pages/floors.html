@@ -115,6 +115,7 @@
       <!-- col -->
       <div class="col-sm-12">
         <ul class="list-unstyled m-20">
+          <li><strong>ID:</strong> {{floor.id}}</li>
           <li><strong>Name:</strong> {{floor.name}}</li>
           <li><strong>Place:</strong> <span ng-repeat="place in places | filter: {id: floor.place_id}">{{place.name}}</span></li>
         </ul>

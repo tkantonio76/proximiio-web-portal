@@ -104,6 +104,7 @@
       <!-- col -->
       <div class="col-sm-9">
         <ul class="list-unstyled m-20">
+          <li><strong>ID:</strong> {{department.id}}</li>
           <li><strong>Department Name:</strong> {{department.name}}</li>
           <li><strong>Place Name:</strong> <span ng-repeat="place in places | filter: {id: department.place_id}">{{place.name}}</span></li>
         </ul>
