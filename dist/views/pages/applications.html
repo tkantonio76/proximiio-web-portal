@@ -127,7 +127,7 @@
                 </div>
               </div>
 
-              <div class="form-group form-group-vertical" ng-if="application.settings.network_interval">
+              <div class="form-group form-group-vertical" ng-if="application.settings.isNetworkInterval">
                 <label class="control-label">Network Interval Value</label>
                 <div class="input-group">
                   <input type="number" name="network_interval_value" class="form-control" ng-model="application.settings.networkInterval">
@@ -138,7 +138,7 @@
               <div class="form-group form-group-vertical">
                 <label class="control-label">Native Activation Treshold</label>
                 <div class="input-group">
-                  <input type="number" name="native_activation_treshhold" class="form-control" ng-model="application.settings.nativeActivationTreshhold">
+                  <input type="number" name="native_activation_treshhold" class="form-control" ng-model="application.settings.nativeActivation">
                   <span class="input-group-addon">ms</span>
                 </div>
               </div>
