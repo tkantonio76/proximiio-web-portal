@@ -153,8 +153,9 @@
           <div class="form-group">
             <label class="col-sm-3 control-label">Metadata</label>
             <div class="col-sm-9">
-              <div ng-jsoneditor="editorLoaded" ng-model="geofence.metadata" options="editor_options" style="height: 300px;"></div>
-              <button class="btn btn-default btn-sm mt-10" ng-click="change_editor_mode()">Change Mode</button>
+              <button class="btn btn-default btn-sm" ng-init="editmetadata = false" ng-show="!editmetadata" ng-click="editmetadata = true">Edit Metadata {{editmetadata}}</button>
+              <div ng-jsoneditor="editorLoaded" ng-model="geofence.metadata" options="editor_options" style="height: 300px;" ng-show="editmetadata"></div>
+              <button class="btn btn-default btn-sm mt-10" ng-click="change_editor_mode()" ng-show="editmetadata">Change Mode</button>
             </div>
           </div>
 
