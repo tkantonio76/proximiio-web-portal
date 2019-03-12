@@ -1,5 +1,5 @@
 {
-  "name": "proximiio",
+  "name": "ProxiconBMS",
   "version": "0.0.78",
   "dependencies": {
     "bson": "^0.4.22",
