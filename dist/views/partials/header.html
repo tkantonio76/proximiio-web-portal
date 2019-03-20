@@ -130,7 +130,14 @@
 
       </div>
 
-    </li>--> <li class="dropdown nav-profile" uib-dropdown on-toggle="toggled(open)"> <a href class="dropdown-toggle" uib-dropdown-toggle> <img src="images/dummy-avatar.84e81f0f.jpg" alt="" class="img-circle size-30x30"> <span>{{currentUser.name || currentUser.email}} <i class="fa fa-angle-down"></i></span> </a> <ul class="dropdown-menu animated littleFadeInUp pull-right mr-10"> <li> <a href ui-sref="app.account"> <i class="fa fa-user"></i>Account </a> </li> <li> <a href="javascript:;" ng-click="logout()"> <i class="fa fa-sign-out"></i>Logout </a> </li> </ul> </li>
+    </li>--> <li class="dropdown nav-profile" uib-dropdown on-toggle="toggled(open)"> <a href class="dropdown-toggle" uib-dropdown-toggle>
+    <img src="images/dummy-avatar.84e81f0f.jpg" alt="" class="img-circle size-30x30">
+    <!--<span>{{currentUser.name || currentUser.email}} <i class="fa fa-angle-down"></i></span> </a> -->
+    <ul class="dropdown-menu animated littleFadeInUp pull-right mr-10">
+    <!--<li> <a href ui-sref="app.account"> <i class="fa fa-user"></i>Account </a> </li> -->
+    <li> <a href="javascript:;" ng-click="logout()"> <i class="fa fa-sign-out"></i>Logout </a> </li>
+</ul>
+</li>
     <!--<li style="margin: 0 20px 0 -10px" class="text-sm"> -->
     <!--<a ui-sref="app.account" style="padding: 0; line-height: 45px" class="link-nostyle">[ Current Plan: <span class="letter-uppercase">{{currentUser.organization.plan}}</span> ]</a>-->
 <!--</li>-->
